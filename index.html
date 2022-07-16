@@ -9,108 +9,70 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
     />
     <link
+      href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="css/main.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.min.css" />
     <script
       src="https://kit.fontawesome.com/72268adad8.js"
       crossorigin="anonymous"
     ></script>
     <title>Dashboard</title>
   </head>
-  <body>
-    <div class="container-fluid overflow-hidden px-1">
-      <div class="row vh-100 overflow-auto">
-        <div
-          class="col-12 col-sm-12 col-xl-2 px-0 bg-dark shadow d-flex sticky-top"
-          id="navDiv"
-        >
-          <div
-            class="d-flex flex-sm-column flex-row flex-grow-1 align-items-center ps-sm-4 ps-2 pe-sm-3 pe-3 pt-sm-2 pt-0 text-white justify-content-between"
-          >
-            <a
-              href="/"
-              class="d-flex align-items-center pb-sm-3 mb-md-1 me-md-auto text-white text-decoration-none"
-            >
-              <img
-                class="d-sm-inline d-md-none"
-                src="img/squala-icon.png"
-                width="80%"
-              /><span class=""
-                ><img
-                  class="d-none d-sm-inline mt-2"
-                  src="img/squala-logo.png"
-                  width="100%"
-              /></span>
+  <body id="body-pd">
+    <header class="header" id="header">
+      <div class="header_toggle">
+        <i class="bx bx-menu" id="header-toggle"></i>
+      </div>
+      <div class="header_img">
+        <a href="#"><img class="img-fluid" src="../img/user.png" alt="" /></a>
+      </div>
+    </header>
+    <div class="l-navbar" id="nav-bar">
+      <nav class="nav">
+        <div>
+          <a href="#" class="nav_logo">
+            <!-- <span id="logo-icon"
+              ><i class="fa-solid fa-s nav_logo-icon"></i
+            ></span> -->
+            <span class="nav_logo-name"
+              ><img src="img/squala-red.png" width="190px"
+            /></span>
+          </a>
+          <div class="nav_list">
+            <a href="#" class="nav_link active">
+              <i class="bx bx-grid-alt nav_icon"></i>
+              <span class="nav_name">Dashboard</span>
             </a>
-            <ul
-              class="nav nav-pills text-center w-100 flex-sm-column flex-row flex-nowrap flex-shrink-1 flex-sm-grow-0 flex-grow-1 mb-sm-auto mb-0 justify-content-center align-items-center align-items-sm-start"
-              id="menu"
-            >
-              <li class="w-100">
-                <a
-                  href="#submenu1"
-                  data-bs-toggle="collapse"
-                  class="nav-link px-sm-0 px-2 active"
-                >
-                  <i class="fs-4 bi-speedometer2 px-2"></i
-                  ><span class="ms-1 d-none d-sm-inline">Dashboard</span>
-                </a>
-              </li>
-              <li class="w-100">
-                <a href="#" class="nav-link px-sm-0 px-2 text-white">
-                  <i class="fs-4 bi-people px-2"></i
-                  ><span class="ms-1 d-none d-sm-inline">Employees</span></a
-                >
-              </li>
-              <li class="w-100">
-                <a href="#" class="nav-link px-sm-0 px-2 text-white">
-                  <i class="fs-4 bi-table px-2"></i
-                  ><span class="ms-1 d-none d-sm-inline">Attendance</span>
-                </a>
-              </li>
-            </ul>
-            <div class="dropdown py-sm-4 mt-sm-auto mx-auto flex-shrink-1">
-              <a
-                href="#"
-                role="button"
-                class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                id="dropdownUser1"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <img
-                  src="https://github.com/mdo.png"
-                  alt="hugenerd"
-                  width="28"
-                  height="28"
-                  class="rounded-circle"
-                />
-                <span class="d-none d-sm-inline mx-1">Manager Joe</span>
-              </a>
-              <ul
-                class="dropdown-menu dropdown-menu-dark text-small shadow"
-                aria-labelledby="dropdownUser1"
-              >
-                <li><a class="dropdown-item" href="#">New project...</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
-                <li><a class="dropdown-item" href="#">Sign out</a></li>
-              </ul>
-            </div>
+            <a href="html/employee.html" class="nav_link">
+              <i class="bx bx-user nav_icon"></i>
+              <span class="nav_name">Employees</span>
+            </a>
+            <a href="html/attendance.html" class="nav_link">
+              <i class="bx bx-calendar-check nav_icon"></i>
+              <span class="nav_name">Attendance</span>
+            </a>
           </div>
         </div>
-        <div class="col d-flex flex-column h-sm-100 pe-3 pe-sm-4">
+        <a href="#" class="nav_link">
+          <i class="bx bx-log-out nav_icon"></i>
+          <span class="nav_name">SignOut</span>
+        </a>
+      </nav>
+    </div>
+    <!--Container Main start-->
+    <div class="height-100">
+      <div class="row vh-100 overflow-auto">
+        <div class="col d-flex flex-column h-sm-100">
           <main class="row overflow-auto">
             <div class="col p-4">
-              <h3 class="text-red">Dashboard</h3>
-              <hr />
+              <h3 class="invisible mb-4" id="top">Dashboard Page</h3>
               <p class="lead fw-bolder">Current Projects</p>
               <div class="d-sm-flex flex-row">
                 <!-- PROJECT 1 CARD -->
@@ -275,6 +237,8 @@
                                       placeholder="Enter employee name"
                                       aria-label="Employee"
                                       aria-describedby="basic-addon2"
+                                      id="searchEmployee"
+                                      onkeyup="searchTable('searchEmployee', 'workers')"
                                     />
                                     <div class="input-group-append">
                                       <button
@@ -320,6 +284,8 @@
                                       placeholder="Enter task to search"
                                       aria-label="Task"
                                       aria-describedby="basic-addon2"
+                                      id="searchTask"
+                                      onkeyup="searchTable('searchTask', 'tasks')"
                                     />
                                     <div class="input-group-append">
                                       <button
@@ -362,6 +328,8 @@
                                       placeholder="Enter tool to search"
                                       aria-label="Tools"
                                       aria-describedby="basic-addon2"
+                                      id="searchTool"
+                                      onkeyup="searchTable('searchTools', 'tools')"
                                     />
                                     <div class="input-group-append">
                                       <button
@@ -894,13 +862,14 @@
                     </div>
                   </div>
                 </div>
+                <!-- END OF MODAL -->
                 <div
                   class="card ms-sm-0 me-sm-3 mx-auto mt-sm-0 mt-3 border-0 border-danger bg-white align-items-center justify-content-center"
                   id="addProjectBtn"
                   style="width: 18rem"
                 >
                   <button
-                    class="btn btn-outline-danger border-2"
+                    class="btn btn-outline-danger border-2 create"
                     style="width: 100%; height: 100%"
                     title="Create Project"
                   >
@@ -912,21 +881,26 @@
               </div>
             </div>
           </main>
-          <footer
-            class="d-sm-flex flex-row bg-light py-4 mt-auto w-100 me-0 ms-0 px-2"
-          >
-            <div class="text-sm-start text-center">
-              <a href="#" class="text-danger mx-2">Home</a>
-              <a href="#" class="text-danger mx-2">About Us</a>
-              <a href="#" class="text-danger mx-2">Contact Us</a>
-            </div>
-            <div class="small ms-auto">
-              &copy; Copyright 2022, Cyberpunk Builders. All Rights Reserved
-            </div>
-          </footer>
+          <a href="#top" class="btn btn-grey mx-auto top d-none" id="topBtn"
+            ><i class="bx bxs-chevron-up fs-3"></i
+          ></a>
         </div>
+
+        <footer
+          class="d-sm-flex flex-row bg-light py-4 mt-auto w-100 me-0 ms-0 px-2"
+        >
+          <div class="text-sm-start text-center">
+            <a href="#" class="text-danger mx-2">Home</a>
+            <a href="#" class="text-danger mx-2">About Us</a>
+            <a href="#" class="text-danger mx-2">Contact Us</a>
+          </div>
+          <div class="small ms-sm-auto text-center">
+            &copy; Copyright 2022, Cyberpunk Builders. All Rights Reserved
+          </div>
+        </footer>
       </div>
     </div>
+    <!--Container Main end-->
 
     <script src="js/init.js"></script>
     <script src="js/main.js"></script>
