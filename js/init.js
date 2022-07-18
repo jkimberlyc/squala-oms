@@ -22,7 +22,7 @@ const employees = [
         contact: "19121122122",
         address: "Davao City",
         designation: "Foreman",
-        skills: ["Carpenter"],
+        skills: ["Carpenter", "Painter"],
         allProjects: ["1"] //project ID history
     },
     {
@@ -33,7 +33,7 @@ const employees = [
         contact: "09121122122",
         address: "Davao City",
         designation: "Skilled",
-        skills: ["Mason"],
+        skills: ["Mason", "Carpenter"],
         allProjects: ["1"]
     }
 ]
