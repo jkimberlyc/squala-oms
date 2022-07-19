@@ -10,6 +10,18 @@ const projects = [
         tasks: ["1", "2", "3"], //task ID
         tools: ["1", "2", "3"], //tools ID
         completed: false
+    },
+    {   
+        id: "2",
+        projectName: "Project 2",
+        projectAddress: "Lot 1, Block 2, Lorem Street, Ipsum City",
+        projectStart: "",
+        projectEnd: "",
+        projectForeman: "",
+        workers: [], //employee ID
+        tasks: ["1", "2", "3"], //task ID
+        tools: ["1", "2", "3"], //tools ID
+        completed: false
     }
 ]
 
@@ -22,8 +34,7 @@ const employees = [
         contact: "19121122122",
         address: "Davao City",
         designation: "Foreman",
-        skills: ["Carpenter", "Painter"],
-        allProjects: ["1"] //project ID history
+        skills: ["Carpenter", "Painter"]
     },
     {
         id: "2",
@@ -33,8 +44,7 @@ const employees = [
         contact: "09121122122",
         address: "Davao City",
         designation: "Skilled",
-        skills: ["Mason", "Carpenter"],
-        allProjects: ["1"]
+        skills: ["Mason", "Carpenter"]
     }
 ]
 
@@ -103,8 +113,30 @@ const tools = [
     }
 ]
 
+const accounts = [
+    {
+        id: 1,
+        username: "manager",
+        password: "1234",
+        employeeID: "admin"
+    },
+    {
+        id: 2,
+        username: "employee1",
+        password: "1234",
+        employeeID: "1"
+    },
+    {
+        id: 3,
+        username: "employee2",
+        password: "1234",
+        employeeID: "2"
+    }
+]
+
 localStorage.setItem("projects", JSON.stringify(projects));
 localStorage.setItem("employees", JSON.stringify(employees));
 localStorage.setItem("attendance", JSON.stringify(attendance));
 localStorage.setItem("tasks", JSON.stringify(tasks));
 localStorage.setItem("tools", JSON.stringify(tools));
+localStorage.setItem("accounts", JSON.stringify(accounts));

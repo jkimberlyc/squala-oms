@@ -1,4 +1,5 @@
 const employeeTable = document.getElementById("displayEmployee");
+const submitBtn = document.getElementById("submitChanges");
 
 function showAllEmployees() {
     for(i in employeeList){
@@ -11,7 +12,7 @@ function showAllEmployees() {
         var skills = document.createElement("td");
         var action = document.createElement("td");
         
-        name.innerHTML = employeeList[i].firstName + " " + employeeList[i].lastName;
+        name.innerHTML = `<a role="button" data-bs-toggle="tooltip" title="Username: | Password:">${employeeList[i].firstName} ${employeeList[i].lastName}</a>`;
         address.innerHTML = employeeList[i].address;
         contact.innerHTML = employeeList[i].contact;
         designation.innerHTML = employeeList[i].designation
@@ -26,18 +27,14 @@ function showAllEmployees() {
         var skillsArray = employeeList[i].skills;
         var skillString = "";
         for(j in skillsArray){
-            if(j!=skillsArray.length-1){ //include a comma except for the last element
-                skillString += skillsArray[j] + ", "
-            } else {
-                skillString += skillsArray[j]
-            }
+            (j!=skillsArray.length-1) ? (skillString += skillsArray[j] + ", ") : (skillString += skillsArray[j]); //include a comma except on the last element
         }
         skills.innerHTML = skillString;
 
         //add edit and dismiss button with bootstrap modal activation
-        action.innerHTML = "<div class='btn-group' role='group' aria-label='Employee Action'> <button type='button' class='btn btn-outline-info btn-sm btn-edit' data-bs-toggle='modal' data-bs-target='#editEmployeeModal''><i class='bx bxs-edit align-middle'></i> Edit</button><button type='button' class='btn btn-outline-danger btn-sm'><i class='bx bx-user-x align-middle'></i> Dismiss</button></div>"
+        action.innerHTML = "<div class='btn-group' role='group' aria-label='Employee Action'> <button type='button' class='btn btn-outline-info btn-sm btn-edit' data-bs-toggle='modal' data-bs-target='#editEmployeeModal''><i class='bx bxs-edit align-middle'></i> Edit</button><button type='buton' class='btn btn-outline-danger btn-sm btn-dismiss'><i class='bx bx-user-x align-middle'></i> Dismiss</button></div>"
 
-        //provide additional data attribute for responsive view purposes
+        //provide additional data attribute for responsive viewing purposes
         name.setAttribute("data-label", "Name");
         address.setAttribute("data-label", "Address");
         contact.setAttribute("data-label", "Contact Number");
@@ -62,17 +59,24 @@ function showAllEmployees() {
 showAllEmployees();
 
 const editBtns = document.querySelectorAll(".btn-edit");
+const dismissBtns = document.querySelectorAll(".btn-dismiss");
 const skillsCheck = document.querySelectorAll(".btn-check");
 
 for(let i=0; i<editBtns.length; i++){
     
     editBtns[i].addEventListener("click", () => {
+        //disable Save Changes button
+        submitBtn.disabled = true;
+
         //reset skills checkboxes
         for(skill of skillsCheck){
             skill.checked = false;
         }
         
         var employeeID = event.target.closest("tr").id; //get the employee id located in each tr
+
+        //store employeeId in the sessionStorage for submitting profile changes later
+        sessionStorage.setItem("employeeIDModal", JSON.stringify(employeeID));
         
         //locate the employee in the employees table with the provided id
         var thisEmployee = employeeList.filter((obj) => obj.id == employeeID);
@@ -90,9 +94,17 @@ for(let i=0; i<editBtns.length; i++){
         address.value = thisEmployee[0].address;
         contact.value = thisEmployee[0].contact;
 
+        updateSelectProject();
+
         var projectID = thisEmployee[0].projectId;
         var thisProject = projectList.filter((obj) => obj.id == projectID);
-        project.value = thisProject[0].projectName;
+
+        //select assign project
+        for(let i=0; i<project.options.length; i++){
+            if(project.options[i].value.includes(thisProject[0].projectName)){
+            project.options[i].selected = true;
+          }
+        }
 
         //select the employee designation based on the record
         for(let i=0; i<designation.options.length; i++){
@@ -111,7 +123,201 @@ for(let i=0; i<editBtns.length; i++){
     })
 }
 
-// document.getElementById("editProfile").addEventListener("click", () => {
-//     var modalForm = document.getElementById
-// });
+//enable Save Changes button when any of the fields/checkboxes in the edit form is changed
+document.getElementById("editForm").addEventListener("change", (e) => {
+    var project = document.getElementById("inputProject").value;
+    var thisProject = projectList.filter((obj) => obj.projectName == project);
+    var options = designationSelect.options;
 
+    if((designationSelect.value=="Foreman") && (e.target == designationSelect)){ //listen for designation dropdown only
+        if(thisProject[0].projectForeman != ""){
+            alert("You cannot assign more than one foreman in a project!");
+            
+            for(i in options){
+                if(options[i].value == designationDefaultVal){
+                    designationSelect[i].selected = true;
+                }
+            }
+            submitBtn.disabled = true;
+        }
+        else submitBtn.disabled = false;
+    }
+    else submitBtn.disabled = false;
+})
+
+document.getElementById("editForm").addEventListener("keyup", () => {
+    submitBtn.disabled = false;
+})
+
+//update localStorage when Save Changes is clicked
+submitBtn.addEventListener("click", () => {
+    var employeeID = JSON.parse(sessionStorage.getItem("employeeIDModal"));
+
+    //index of the employee object in the employees table (subtract 1 because array is 0-based)
+    var index = employeeList.findIndex(employee => employee.id == employeeID); 
+
+    var thisEmployee = employeeList.filter((obj) => obj.id == employeeID);
+
+    //for the new project value, we have to get its ID from the projects table using the provided project name and store its ID instead
+    var thisProject = projectList.filter((obj) => obj.projectName == document.getElementById("inputProject").value);
+
+    if(thisProject[0].id == thisEmployee[0].projectId){ //if same project
+        if((document.getElementById("inputDesignation").value == "Foreman") && (thisEmployee[0].designation == "Skilled")){ 
+            //if skilled is assigned as foreman in same project
+            addForeman(thisProject[0].id, employeeID);
+        } else if ((document.getElementById("inputDesignation").value == "Skilled") && (thisEmployee[0].designation == "Foreman")){ 
+            //from foreman to skilled
+            removeForeman(thisProject[0].id);
+        }
+    } else { //if not same project
+        if((document.getElementById("inputDesignation").value == "Foreman") && (thisEmployee[0].designation == "Skilled")) {
+            //from skilled to foreman in another project
+            addForeman(thisProject[0].id, employeeID);
+            addWorker(thisProject[0].id, employeeID);
+            removeWorker(thisEmployee[0].projectId, employeeID);
+        }
+        else if((document.getElementById("inputDesignation").value == "Skilled") && (thisEmployee[0].designation == "Foreman")){  
+            //from foreman to skilled in another project  
+            removeForeman(thisEmployee[0].projectId);
+            removeWorker(thisEmployee[0].projectId, employeeID);
+            addWorker(thisProject[0].id, employeeID);
+        }
+        else if((document.getElementById("inputDesignation").value == "Foreman") && (thisEmployee[0].designation == "Foreman")){  
+            //from foreman to foreman in another project  
+            removeForeman(thisEmployee[0].projectId);
+            removeWorker(thisEmployee[0].projectId, employeeID);
+            addForeman(thisProject[0].id, employeeID);
+            addWorker(thisProject[0].id, employeeID);
+        }
+        else if((document.getElementById("inputDesignation").value == "Skilled") && (thisEmployee[0].designation == "Skilled")){  
+            //from skilled to skilled in another project  
+            removeWorker(thisEmployee[0].projectId, employeeID);
+            addWorker(thisProject[0].id, employeeID);
+        }
+    }
+
+    //for new value of skills, we take all the checked checkboxes and put it in an array
+    var skillsArray = [];
+    for(i in skillsCheck){
+        if(skillsCheck[i].checked) skillsArray.push(skillsCheck[i].id);
+    }
+
+    var newEmployee = {
+        id: employeeID,
+        projectId: thisProject[0].id,
+        firstName: document.getElementById("inputFirstName").value,
+        lastName: document.getElementById("inputLastName").value,
+        contact: document.getElementById("inputContact").value,
+        address: document.getElementById("inputAddress").value,
+        designation: document.getElementById("inputDesignation").value,
+        skills: skillsArray
+    }
+
+    var empList = employeeList;
+    empList[index] = newEmployee;
+    localStorage.setItem("employees", JSON.stringify(empList));
+})
+
+//to dismiss an employee from the company
+for(let i=0; i<dismissBtns.length; i++){
+    dismissBtns[i].addEventListener("click", () => {
+        var employeeID = event.target.closest("tr").id; //get the employee id located in each tr
+        var thisEmployee = employeeList.filter((obj) => obj.id == employeeID);
+
+        removeWorker(thisEmployee[0].projectId, employeeID);
+
+        if(thisEmployee[0].designation == "Foreman") removeForeman(thisEmployee[0].projectId); //if employee was a foreman, remove foreman of that project
+
+        localStorage.setItem("employees", JSON.stringify(employeeList.filter((obj) => obj.id != employeeID)));
+        location.reload();
+    })
+}
+
+//populate project input datalist
+function updateSelectProject() {
+    var projSelect = document.getElementById("inputProject");
+
+    //reset select options
+    projSelect.innerHTML = "";
+
+    const options = projectList.map(function (project) {
+        return project.projectName;
+    });
+
+    for(i in options){
+        var option = document.createElement("option");
+        option.value = options[i];
+        option.textContent = options[i];
+        projSelect.appendChild(option);
+    }
+}
+
+const designationSelect = document.getElementById("inputDesignation");
+var designationDefaultVal = "";
+
+designationSelect.addEventListener("click", () => {
+    return designationDefaultVal = designationSelect.value;
+})
+
+function addForeman(projectID, employeeID){
+    var thisProject = projectList.filter((obj) => obj.id == projectID);
+
+    thisProject[0] = {
+        ...thisProject[0],
+        projectForeman: employeeID
+    }
+
+    var projList = projectList;
+    projList[projectID-1] = thisProject[0]
+    localStorage.setItem("projects", JSON.stringify(projList));
+}
+
+function removeForeman(projectID){
+    var thisProject = projectList.filter((obj) => obj.id == projectID);
+
+    thisProject[0] = {
+        ...thisProject[0],
+        projectForeman: ""
+    }
+
+    var projList = projectList;
+    projList[projectID-1] = thisProject[0]
+    localStorage.setItem("projects", JSON.stringify(projList));
+}
+
+function addWorker(projectID, employeeID){
+    var thisProject = projectList.filter((obj) => obj.id == projectID);
+    var newWorkers = thisProject[0].workers;
+
+    if(newWorkers.indexOf(employeeID) < 0) newWorkers.push(employeeID);
+
+    thisProject[0] = {
+        ...thisProject[0],
+        workers: newWorkers
+    }
+
+    var projList = projectList;
+    projList[projectID-1] = thisProject[0]
+    localStorage.setItem("projects", JSON.stringify(projList));
+}
+
+function removeWorker(projectID, employeeID){
+    var thisProject = projectList.filter((obj) => obj.id == projectID);
+    var newWorkers = thisProject[0].workers;
+
+    for(let i=0; i<newWorkers.length; i++){
+        if(newWorkers[i] == employeeID ) newWorkers.splice(i, 1);
+    }
+
+    thisProject[0] = {
+        ...thisProject[0],
+        workers: newWorkers
+    }
+
+    var projList = projectList;
+    projList[projectID-1] = thisProject[0]
+    localStorage.setItem("projects", JSON.stringify(projList));
+}
+
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))

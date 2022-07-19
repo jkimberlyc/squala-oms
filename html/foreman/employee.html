@@ -44,7 +44,7 @@
             >Joe</span
           >
           <div class="header_img d-inline-block align-middle">
-            <img class="img-fluid" src="../../img/user-manager.png" alt="" />
+            <img class="img-fluid" src="../../img/user-foreman.png" alt="" />
           </div>
         </a>
 
@@ -186,7 +186,6 @@
                           >First Name</label
                         >
                       </div>
-                      <div class="d-none"></div>
                       <div class="col-md-6 form-floating">
                         <input
                           type="text"
@@ -225,12 +224,20 @@
                       </div>
                       <hr class="" />
                       <div class="col-md-6 form-floating">
-                        <select
-                          class="form-select"
+                        <input
+                          class="form-control"
+                          list="projOptions"
                           id="inputProject"
-                          placeholder="Select designation"
+                          placeholder="Type to search..."
                           required
-                        ></select>
+                        />
+                        <datalist id="projOptions">
+                          <option value="San Francisco"></option>
+                          <option value="New York"></option>
+                          <option value="Seattle"></option>
+                          <option value="Los Angeles"></option>
+                          <option value="Chicago"></option>
+                        </datalist>
                         <label for="inputProject" class="form-label"
                           >Project</label
                         >
@@ -308,8 +315,7 @@
                       <button
                         type="submit"
                         class="btn btn-danger text-white"
-                        id="submitChanges"
-                        disabled
+                        id="editProfile"
                       >
                         Save changes
                       </button>
@@ -339,8 +345,8 @@
     </div>
 
     <!--Container Main end-->
-    <script src="../../js/bootstrap.bundle.min.js"></script>
     <script src="../../js/main.js"></script>
-    <script src="../../js/manager/employee.js"></script>
+    <script src="../../js/foreman/employee.js"></script>
+    <script src="../../js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
