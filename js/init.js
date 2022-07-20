@@ -140,3 +140,5 @@ localStorage.setItem("attendance", JSON.stringify(attendance));
 localStorage.setItem("tasks", JSON.stringify(tasks));
 localStorage.setItem("tools", JSON.stringify(tools));
 localStorage.setItem("accounts", JSON.stringify(accounts));
+sessionStorage.setItem("createAlert", JSON.stringify(""));
+sessionStorage.setItem("editAlert", JSON.stringify(""));

@@ -99,13 +99,28 @@
           <main class="row overflow-auto">
             <div class="col p-4">
               <h3 class="invisible mb-4" id="top">Employee</h3>
-              <p class="lead fw-bolder">Employee List</p>
+              <p class="lead fw-bolder d-inline-block">
+                <span class="align-middle">Employee List</span>
+              </p>
+              <div class="d-inline-block ms-2">
+                <button
+                  class="btn btn-danger btn-sm text-white new-employee"
+                  data-bs-toggle="modal"
+                  data-bs-target="#employeeModal"
+                >
+                  <i class="bx bx-plus align-middle fs-6"></i
+                  ><span class="align-middle">New</span>
+                </button>
+              </div>
               <form action="#">
                 <div class="input-group my-2">
+                  <span class="input-group-text align-middle"
+                    ><i class="bx bx-search align-middle"></i
+                  ></span>
                   <input
                     type="text"
                     class="form-control"
-                    placeholder="Search Employee"
+                    placeholder="Search"
                     aria-label="Employee"
                     aria-describedby="basic-addon2"
                     id="searchEmployeeList"
@@ -119,15 +134,42 @@
                     <option selected onclick="history.go(0)">
                       Filter by project
                     </option>
-                    <option>Project 1</option>
-                    <option>Project 2</option>
-                    <option>Project 3</option>
                   </select>
-                  <button class="btn btn-outline-danger" type="button">
+                  <!-- <button class="btn btn-outline-danger" type="button">
                     Search
-                  </button>
+                  </button> -->
                 </div>
               </form>
+              <div
+                class="alert alert-success alert-dismissible fade show create-alert d-none"
+                role="alert"
+              >
+                <i class="bx bx-check-circle align-middle fs-5"></i>
+                <span class="align-middle"
+                  >Sucessfully created new employee.</span
+                >
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="alert"
+                  aria-label="Close"
+                  onclick="clearAlertVal()"
+                ></button>
+              </div>
+              <div
+                class="alert alert-success alert-dismissible fade show edit-alert d-none"
+                role="alert"
+              >
+                <i class="bx bx-user-check align-middle fs-5"></i>
+                <span class="align-middle">Successfully edited employee.</span>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="alert"
+                  aria-label="Close"
+                  onclick="clearAlertVal()"
+                ></button>
+              </div>
               <div class="table-responsive mt-4">
                 <table
                   class="table table-hover text-sm-center align-middle"
@@ -151,9 +193,9 @@
             <!-- EDIT MODAL -->
             <div
               class="modal fade"
-              id="editEmployeeModal"
+              id="employeeModal"
               tabindex="-1"
-              aria-labelledby="editEmployeeModalLabel"
+              aria-labelledby="employeeModalLabel"
               aria-hidden="true"
             >
               <div
@@ -161,7 +203,7 @@
               >
                 <div class="modal-content border-2 border-danger">
                   <div class="modal-header border-danger bg-light">
-                    <h5 class="modal-title" id="editEmployeeModalLabel">
+                    <h5 class="modal-title" id="employeeModalLabel">
                       <i class="bx bxs-edit align-middle"></i>
                       <span class="align-middle">Edit Profile</span>
                     </h5>
@@ -186,7 +228,6 @@
                           >First Name</label
                         >
                       </div>
-                      <div class="d-none"></div>
                       <div class="col-md-6 form-floating">
                         <input
                           type="text"
@@ -308,7 +349,7 @@
                       <button
                         type="submit"
                         class="btn btn-danger text-white"
-                        id="submitChanges"
+                        id="submitBtn"
                         disabled
                       >
                         Save changes
