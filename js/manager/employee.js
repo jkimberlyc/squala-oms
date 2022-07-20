@@ -184,9 +184,13 @@ document.getElementById("editForm").addEventListener("change", (e) => {
             valid = true;
         }
     }
-    else if((designationSelect.value=="Skilled") && (e.target == designationSelect || e.target == projectSelect)) {
+    // else if((designationSelect.value=="Skilled") && (e.target == designationSelect || e.target == projectSelect)) {
+    //     valid = true;
+    // }
+    else{
         valid = true;
-    }else submitBtn.disabled = false;
+        // submitBtn.disabled = false;
+    }
 
     if(valid) submitBtn.disabled = false;
     else submitBtn.disabled = true;
