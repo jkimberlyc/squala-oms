@@ -6,8 +6,10 @@
   --color-success: #4bb544;
   --border-radius: 4px;
 }
-html {
-  min-height: 100vh;
+html,
+body {
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
 }
 body {
   margin: 0;
