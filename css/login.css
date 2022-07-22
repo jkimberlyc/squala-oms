@@ -6,7 +6,9 @@
   --color-success: #4bb544;
   --border-radius: 4px;
 }
-
+html {
+  min-height: 100vh;
+}
 body {
   margin: 0;
   padding: 0;
@@ -36,7 +38,7 @@ body {
 } */
 }
 .card {
-  background-color: #ffffff98 !important;
+  background-color: #ffffffce !important;
   border: 0 !important;
   transition: 1s ease;
   /* opacity: 0.9; */
