@@ -17,10 +17,6 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-image: url("../img/bg.gif"), url("../img/bg.gif");
-  background-repeat: no-repeat;
-  background-size: auto 85%;
-  background-position: center;
 
   /* 
   margin: 0;
@@ -54,6 +50,10 @@ body {
 }
 .main {
   flex-grow: 1;
+  background-image: url("../img/bg.gif"), url("../img/bg.gif");
+  background-repeat: no-repeat;
+  background-size: auto 90%;
+  background-position: center;
 }
 
 .form--hidden {
