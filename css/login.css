@@ -13,7 +13,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-image: url("../img/bg.gif");
+  background-image: url("../img/bg.gif"), url("../img/bg.gif");
   background-repeat: no-repeat;
   background-size: auto 100%;
   background-position: center;
@@ -39,12 +39,14 @@ body {
   background-color: #ffffff98 !important;
   border: 0 !important;
   transition: 1s ease;
+  /* opacity: 0.9; */
 }
 
 .card:hover {
   background-color: #ffffff !important;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   transition: 1s ease;
+  opacity: 1;
 }
 .main {
   flex-grow: 1;
@@ -89,6 +91,19 @@ body {
   outline: none;
   background: #eeeeee;
   transition: background 0.2s, border-color 0.2s;
+}
+
+.form__input_inline {
+  display: inline=block;
+  width: 100%;
+  padding: 0.75rem;
+  box-sizing: border-box;
+  border-radius: var(--border-radius);
+  border: 1px solid #222222;
+  outline: none;
+  background: #eeeeee;
+  transition: background 0.2s, border-color 0.2s;
+  z-index: 0;
 }
 
 input:-webkit-autofill {
