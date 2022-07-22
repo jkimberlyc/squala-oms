@@ -19,7 +19,7 @@ body {
   flex-direction: column;
   background-image: url("../img/bg.gif"), url("../img/bg.gif");
   background-repeat: no-repeat;
-  background-size: auto 100%;
+  background-size: auto 85%;
   background-position: center;
 
   /* 
@@ -43,7 +43,7 @@ body {
   background-color: #ffffffce !important;
   border: 0 !important;
   transition: 1s ease;
-  /* opacity: 0.9; */
+  opacity: 0.9;
 }
 
 .card:hover {
