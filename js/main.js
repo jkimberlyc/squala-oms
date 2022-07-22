@@ -17,6 +17,7 @@ const projectList = JSON.parse(localStorage.getItem("projects"));
 const employeeList = JSON.parse(localStorage.getItem("employees"));
 const taskList = JSON.parse(localStorage.getItem("tasks"));
 const toolsList = JSON.parse(localStorage.getItem("tools"));
+const attendList = JSON.parse(localStorage.getItem("attendance"));
 const modalBtns = document.querySelectorAll(".modalBtn"); //get all Open Project buttons
 
 for (let i = 0; i < modalBtns.length; i++) {
@@ -424,7 +425,7 @@ function searchTable(inputElement, tableElement) {
 
 	if (input.value == "Filter by project") location.reload();
 	else {
-        if(inputElement == "filter" && tableElement == "attendance") document.getElementById("datePicker").valueAsDate = null;
+        // if(inputElement == "filter" && tableElement == "attendance") document.getElementById("datePicker").valueAsDate = null;
         
 		for (i = 1; i < tr.length; i++) {
 			td = tr[i].getElementsByTagName("td");
@@ -484,7 +485,40 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	// Your code to run since DOM is loaded and ready
 });
 
+function updateSelectFilter() {
+    var filterSelect = document.getElementById("filter");
+    filterSelect.innerHTML = "<option selected onclick='history.go(0)'>Filter by project</option>";
 
+    const options = projectList.map(function (project) {
+        return project.projectName;
+    });
+
+    for(i in options){
+        var option = document.createElement("option");
+        option.value = options[i];
+        option.textContent = options[i];
+        filterSelect.appendChild(option);
+    }
+}
+
+//populate project input datalist
+function updateSelectProject() {
+    var projSelect = document.getElementById("inputProject");
+
+    //reset select options
+    projSelect.innerHTML = "";
+
+    const options = projectList.map(function (project) {
+        return project.projectName;
+    });
+
+    for(i in options){
+        var option = document.createElement("option");
+        option.value = options[i];
+        option.textContent = options[i];
+        projSelect.appendChild(option);
+    }
+}
 
 const showOnPx = 100;
 const backToTopButton = document.getElementById("topBtn");

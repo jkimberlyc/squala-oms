@@ -2,7 +2,7 @@
 :root{
     --header-height: 3rem;
     --nav-width: 68px;
-    --first-color: #8B0000;
+    --first-color: #b30404;
     --first-color-light: #cec0c0;
     --white-color: #F7F6FB;
     --body-font: 'Nunito', sans-serif;
@@ -241,6 +241,9 @@ a{
     }
     #searchEmployeeList, #searchAttendance{
         width: 75%;
+    }
+    .w-sm-25 {
+        width: 25% !important;
     }
 }
  // @import "../node_modules/bootstrap/scss/functions";

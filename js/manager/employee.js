@@ -37,7 +37,7 @@ function showAllEmployees() {
         skills.innerHTML = skillString;
 
         //add edit and dismiss button with bootstrap modal activation
-        action.innerHTML = "<div class='btn-group' role='group' aria-label='Employee Action'> <button type='button' class='btn btn-outline-info btn-sm btn-edit' data-bs-toggle='modal' data-bs-target='#employeeModal'><i class='bx bxs-edit align-middle'></i> Edit</button><button type='buton' class='btn btn-outline-danger btn-sm btn-dismiss'><i class='bx bx-user-x align-middle'></i> Dismiss</button></div>"
+        action.innerHTML = "<div class='btn-group w-100' role='group' aria-label='Employee Action'> <button type='button' class='btn btn-outline-info btn-sm px-0 btn-edit' data-bs-toggle='modal' data-bs-target='#employeeModal'><i class='bx bxs-edit align-middle'></i> Edit</button><button type='buton' class='btn btn-outline-danger btn-sm px-0 btn-dismiss'><i class='bx bx-user-x align-middle'></i> Dismiss</button></div>"
 
         //provide additional data attribute for responsive viewing purposes
         name.setAttribute("data-label", "Name");
@@ -294,41 +294,6 @@ for(let i=0; i<dismissBtns.length; i++){
     })
 }
 
-//populate project input datalist
-function updateSelectProject() {
-    var projSelect = document.getElementById("inputProject");
-
-    //reset select options
-    projSelect.innerHTML = "";
-
-    const options = projectList.map(function (project) {
-        return project.projectName;
-    });
-
-    for(i in options){
-        var option = document.createElement("option");
-        option.value = options[i];
-        option.textContent = options[i];
-        projSelect.appendChild(option);
-    }
-}
-
-function updateSelectFilter() {
-    var filterSelect = document.getElementById("filter");
-    filterSelect.innerHTML = "<option selected onclick='history.go(0)'>Filter by project</option>";
-
-    const options = projectList.map(function (project) {
-        return project.projectName;
-    });
-
-    for(i in options){
-        var option = document.createElement("option");
-        option.value = options[i];
-        option.textContent = options[i];
-        filterSelect.appendChild(option);
-    }
-}
-
 const designationSelect = document.getElementById("inputDesignation");
 const projectSelect = document.getElementById("inputProject");
 var designationDefaultVal = "";
@@ -458,3 +423,10 @@ function createEmployee() {
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+window.addEventListener("load", function() {
+    window.setTimeout(() => {
+        document.querySelector(".loader").classList.add("d-none");
+        document.body.classList.replace("overflow-hidden", "overflow-auto");
+    }, 300)
+})

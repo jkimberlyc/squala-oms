@@ -1,5 +1,5 @@
-const name = document.getElementById('UserName')
-const password = document.getElementById('Password')
+var name = document.getElementById('UserName')
+var password = document.getElementById('Password')
 var loginPeople =[{
     UserName: "PManager",
     Password: "PManager1",
@@ -16,15 +16,18 @@ var loginPeople =[{
 
 function validate()
 {
-    var username=document.getElementById("UserName").value;
-    var password=document.getElementById("Password").value;
+    // var username=document.getElementById("UserName").value;
+    // var password=document.getElementById("Password").value;
+    username = "PManager";
+    password = "PManager1";
 
 
 for(i=0;i<loginPeople.length;i++){
     if(username == loginPeople[i].UserName && password == loginPeople[i].Password){
-        alert("login successfully");
+        alert("sucess")
+        window.location.href="manager/dashboard.html";
         return
-}
+    }
 }
 alert("login failed");
 }

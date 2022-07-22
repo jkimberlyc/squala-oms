@@ -53,18 +53,20 @@ const attendance = [
         id: "1",
         employeeId: "1",
         projectId: "1",
-        date: "",
-        timeIn: "",
-        timeOut: "",
+        designation: "Foreman",
+        date: "2022-02-21",
+        timeIn: "09:00",
+        timeOut: "18:00",
         status: "Present"
     },
     {
         id: "2",
         employeeId: "2",
         projectId: "1",
-        date: "",
-        timeIn: "",
-        timeOut: "",
+        designation: "Skilled",
+        date: "2022-02-22",
+        timeIn: "08:46",
+        timeOut: "18:03",
         status: "Absent"
     }
 ]
@@ -142,3 +144,5 @@ localStorage.setItem("tools", JSON.stringify(tools));
 localStorage.setItem("accounts", JSON.stringify(accounts));
 sessionStorage.setItem("createAlert", JSON.stringify(""));
 sessionStorage.setItem("editAlert", JSON.stringify(""));
+sessionStorage.setItem("createAlert1", JSON.stringify(""));
+sessionStorage.setItem("editAlert1", JSON.stringify(""));

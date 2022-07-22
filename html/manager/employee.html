@@ -18,14 +18,26 @@
       integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" type="text/css" href="../../css/manager.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/main.min.css" />
     <script
       src="https://kit.fontawesome.com/72268adad8.js"
       crossorigin="anonymous"
     ></script>
     <title>Employees</title>
   </head>
-  <body id="body-pd">
+  <body id="body-pd" class="overflow-hidden">
+    <div
+      class="d-flex justify-content-center align-items-center loader"
+      style="height: 100vh"
+    >
+      <div
+        class="spinner-border text-danger"
+        style="width: 5rem; height: 5rem"
+        role="status"
+      >
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
     <header class="header" id="header">
       <div class="header_toggle">
         <i class="bx bx-menu" id="header-toggle"></i>
@@ -190,7 +202,7 @@
               </div>
             </div>
 
-            <!-- EDIT MODAL -->
+            <!-- MODAL -->
             <div
               class="modal fade"
               id="employeeModal"
@@ -223,6 +235,7 @@
                           id="inputFirstName"
                           placeholder="First Name"
                           required
+                          autocomplete="off"
                         />
                         <label for="inputFirstName" class="form-label"
                           >First Name</label
@@ -235,6 +248,7 @@
                           id="inputLastName"
                           placeholder="Last Name"
                           required
+                          autocomplete="off"
                         />
                         <label for="inputLastName" class="form-label"
                           >Last Name</label
@@ -247,6 +261,7 @@
                           id="inputAddress"
                           placeholder="House No./Street/Barangay/City/Municipality/Region"
                           required
+                          autocomplete="off"
                         />
                         <label for="inputAddress" class="form-label"
                           >Address</label
@@ -259,6 +274,7 @@
                           id="inputContact"
                           placeholder="Enter phone number"
                           required
+                          autocomplete="off"
                         />
                         <label for="inputContact" class="form-label"
                           >Contact Number</label
