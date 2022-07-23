@@ -14,28 +14,6 @@ function checkUser(){
     else if(user === "Employee") window.location.href = "employee/dashboard.html"
 }
 
-const accounts = [
-    {
-        id: 1,
-        username: "manager",
-        password: "1234",
-        employeeId: "admin"
-    },
-    {
-        id: 2,
-        username: "employee1",
-        password: "1234",
-        employeeId: "1"
-    },
-    {
-        id: 3,
-        username: "employee2",
-        password: "1234",
-        employeeId: "2"
-    }
-]
-localStorage.setItem("accounts", JSON.stringify(accounts));
-
 var name = document.getElementById('UserName')
 var password = document.getElementById('Password')
 const loginPeople = JSON.parse(localStorage.getItem('accounts'));
