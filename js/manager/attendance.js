@@ -1,4 +1,5 @@
 window.addEventListener("load", function() {
+    authenticateUser();
     window.setTimeout(() => {
         document.querySelector(".loader").classList.add("d-none");
         document.body.classList.replace("overflow-hidden", "overflow-auto");
@@ -8,6 +9,15 @@ window.addEventListener("load", function() {
     datePicker.max = new Date().toLocaleDateString('en-ca')
     searchRecords();
 })
+
+function authenticateUser(){
+    var user = sessionStorage.getItem("user");
+
+    if(user === "") window.location.href="../../html/login.html"
+    else if(user === "Foreman") window.location.href="../../html/foreman/dashboard.html"
+    else if(user === "Employee") window.location.href="../../html/employee/dashboard.html"
+    
+}
 
 const attendanceTable = document.getElementById("attendance");
 var attendanceIDModal;

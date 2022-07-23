@@ -120,19 +120,19 @@ const accounts = [
         id: 1,
         username: "manager",
         password: "1234",
-        employeeID: "admin"
+        employeeId: "admin"
     },
     {
         id: 2,
         username: "employee1",
         password: "1234",
-        employeeID: "1"
+        employeeId: "1"
     },
     {
         id: 3,
         username: "employee2",
         password: "1234",
-        employeeID: "2"
+        employeeId: "2"
     }
 ]
 

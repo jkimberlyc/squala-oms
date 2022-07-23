@@ -1,3 +1,19 @@
+window.addEventListener("load", function() {
+    authenticateUser();
+    window.setTimeout(() => {
+        document.querySelector(".loader").classList.add("d-none");
+        document.body.classList.replace("overflow-hidden", "overflow-auto");
+    }, 300)
+})
+
+function authenticateUser(){
+    var user = sessionStorage.getItem("user");
+
+    if(user === "") window.location.href="../../html/login.html"
+    else if(user === "Foreman") window.location.href="../../html/foreman/dashboard.html"
+    else if(user === "Employee") window.location.href="../../html/employee/dashboard.html"
+}
+
 const employeeTable = document.getElementById("displayEmployee");
 const submitBtn = document.getElementById("submitBtn");
 var employeeIDModal;
@@ -17,7 +33,9 @@ function showAllEmployees() {
         var skills = document.createElement("td");
         var action = document.createElement("td");
         
-        name.innerHTML = `<a role="button" data-bs-toggle="tooltip" title="Username: | Password:">${employeeList[i].firstName} ${employeeList[i].lastName}</a>`;
+        var account = accountList.filter((obj) => obj.employeeId === employeeList[i].id)
+        
+        name.innerHTML = `<a role="button" data-bs-toggle="tooltip" title="Username: ${account[0].username} Password: ${account[0].password}">${employeeList[i].firstName} ${employeeList[i].lastName}</a>`;
         address.innerHTML = employeeList[i].address;
         contact.innerHTML = employeeList[i].contact;
         designation.innerHTML = employeeList[i].designation
@@ -415,18 +433,38 @@ function createEmployee() {
     var empList = employeeList;
     empList.push(newEmployee);
     localStorage.setItem("employees", JSON.stringify(empList)); 
-    
+    createAccount(newId);
     
     sessionStorage.setItem("createAlert", JSON.stringify("true"));
 }
 
+function createAccount(employeeId){
+    var employee = employeeList.filter((obj) => obj.id === employeeId)
+    var newId = accountList.length + 1;
+    var username = employee[0].firstName.charAt(0) + employee[0].lastName;
+    username = username.toLowerCase();
+
+    //generate random password
+    var chars = "0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var passwordLength = 7;
+    var password = "";
+
+    for (var i = 0; i <= passwordLength; i++) {
+        var randomNumber = Math.floor(Math.random() * chars.length);
+        password += chars.substring(randomNumber, randomNumber +1);
+    }
+
+    var newAccount = {
+        id: newId,
+        username: username,
+        password: password,
+        employeeId: employeeId
+    }
+
+    var newList = accountList;
+    newList.push(newAccount);
+    localStorage.setItem("accounts", JSON.stringify(newList));
+}
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-
-window.addEventListener("load", function() {
-    window.setTimeout(() => {
-        document.querySelector(".loader").classList.add("d-none");
-        document.body.classList.replace("overflow-hidden", "overflow-auto");
-    }, 300)
-})
