@@ -18,14 +18,26 @@
       integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" type="text/css" href="../../css/manager.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/main.min.css" />
     <script
       src="https://kit.fontawesome.com/72268adad8.js"
       crossorigin="anonymous"
     ></script>
     <title>Employees</title>
   </head>
-  <body id="body-pd">
+  <body id="body-pd" class="overflow-hidden">
+    <div
+      class="d-flex justify-content-center align-items-center loader"
+      style="height: 100vh"
+    >
+      <div
+        class="spinner-border text-danger"
+        style="width: 5rem; height: 5rem"
+        role="status"
+      >
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
     <header class="header" id="header">
       <div class="header_toggle">
         <i class="bx bx-menu" id="header-toggle"></i>
@@ -56,7 +68,9 @@
           <!-- <li>
             <hr class="dropdown-divider" />
           </li> -->
-          <li><a class="dropdown-item" href="#">Sign out</a></li>
+          <li>
+            <a class="dropdown-item logout" href="../login.html">Sign out</a>
+          </li>
         </ul>
       </div>
     </header>
@@ -86,7 +100,7 @@
             </a>
           </div>
         </div>
-        <a href="#" class="nav_link">
+        <a href="../login.html" class="nav_link logout">
           <i class="bx bx-log-out nav_icon"></i>
           <span class="nav_name">SignOut</span>
         </a>
@@ -99,13 +113,28 @@
           <main class="row overflow-auto">
             <div class="col p-4">
               <h3 class="invisible mb-4" id="top">Employee</h3>
-              <p class="lead fw-bolder">Employee List</p>
+              <p class="lead fw-bolder d-inline-block">
+                <span class="align-middle">Employee List</span>
+              </p>
+              <div class="d-inline-block ms-2">
+                <button
+                  class="btn btn-danger btn-sm text-white new-employee"
+                  data-bs-toggle="modal"
+                  data-bs-target="#employeeModal"
+                >
+                  <i class="bx bx-plus align-middle fs-6"></i
+                  ><span class="align-middle">New</span>
+                </button>
+              </div>
               <form action="#">
                 <div class="input-group my-2">
+                  <span class="input-group-text align-middle"
+                    ><i class="bx bx-search align-middle"></i
+                  ></span>
                   <input
                     type="text"
                     class="form-control"
-                    placeholder="Search Employee"
+                    placeholder="Search"
                     aria-label="Employee"
                     aria-describedby="basic-addon2"
                     id="searchEmployeeList"
@@ -119,15 +148,42 @@
                     <option selected onclick="history.go(0)">
                       Filter by project
                     </option>
-                    <option>Project 1</option>
-                    <option>Project 2</option>
-                    <option>Project 3</option>
                   </select>
-                  <button class="btn btn-outline-danger" type="button">
+                  <!-- <button class="btn btn-outline-danger" type="button">
                     Search
-                  </button>
+                  </button> -->
                 </div>
               </form>
+              <div
+                class="alert alert-success alert-dismissible fade show create-alert d-none"
+                role="alert"
+              >
+                <i class="bx bx-check-circle align-middle fs-5"></i>
+                <span class="align-middle"
+                  >Sucessfully created new employee.</span
+                >
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="alert"
+                  aria-label="Close"
+                  onclick="clearAlertVal()"
+                ></button>
+              </div>
+              <div
+                class="alert alert-success alert-dismissible fade show edit-alert d-none"
+                role="alert"
+              >
+                <i class="bx bx-user-check align-middle fs-5"></i>
+                <span class="align-middle">Successfully edited employee.</span>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="alert"
+                  aria-label="Close"
+                  onclick="clearAlertVal()"
+                ></button>
+              </div>
               <div class="table-responsive mt-4">
                 <table
                   class="table table-hover text-sm-center align-middle"
@@ -148,12 +204,12 @@
               </div>
             </div>
 
-            <!-- EDIT MODAL -->
+            <!-- MODAL -->
             <div
               class="modal fade"
-              id="editEmployeeModal"
+              id="employeeModal"
               tabindex="-1"
-              aria-labelledby="editEmployeeModalLabel"
+              aria-labelledby="employeeModalLabel"
               aria-hidden="true"
             >
               <div
@@ -161,7 +217,7 @@
               >
                 <div class="modal-content border-2 border-danger">
                   <div class="modal-header border-danger bg-light">
-                    <h5 class="modal-title" id="editEmployeeModalLabel">
+                    <h5 class="modal-title" id="employeeModalLabel">
                       <i class="bx bxs-edit align-middle"></i>
                       <span class="align-middle">Edit Profile</span>
                     </h5>
@@ -181,6 +237,7 @@
                           id="inputFirstName"
                           placeholder="First Name"
                           required
+                          autocomplete="off"
                         />
                         <label for="inputFirstName" class="form-label"
                           >First Name</label
@@ -193,6 +250,7 @@
                           id="inputLastName"
                           placeholder="Last Name"
                           required
+                          autocomplete="off"
                         />
                         <label for="inputLastName" class="form-label"
                           >Last Name</label
@@ -205,6 +263,7 @@
                           id="inputAddress"
                           placeholder="House No./Street/Barangay/City/Municipality/Region"
                           required
+                          autocomplete="off"
                         />
                         <label for="inputAddress" class="form-label"
                           >Address</label
@@ -217,6 +276,7 @@
                           id="inputContact"
                           placeholder="Enter phone number"
                           required
+                          autocomplete="off"
                         />
                         <label for="inputContact" class="form-label"
                           >Contact Number</label
@@ -224,20 +284,12 @@
                       </div>
                       <hr class="" />
                       <div class="col-md-6 form-floating">
-                        <input
-                          class="form-control"
-                          list="projOptions"
+                        <select
+                          class="form-select"
                           id="inputProject"
-                          placeholder="Type to search..."
+                          placeholder="Select designation"
                           required
-                        />
-                        <datalist id="projOptions">
-                          <option value="San Francisco"></option>
-                          <option value="New York"></option>
-                          <option value="Seattle"></option>
-                          <option value="Los Angeles"></option>
-                          <option value="Chicago"></option>
-                        </datalist>
+                        ></select>
                         <label for="inputProject" class="form-label"
                           >Project</label
                         >
@@ -315,7 +367,8 @@
                       <button
                         type="submit"
                         class="btn btn-danger text-white"
-                        id="editProfile"
+                        id="submitBtn"
+                        disabled
                       >
                         Save changes
                       </button>
@@ -325,7 +378,10 @@
               </div>
             </div>
           </main>
-          <a href="#top" class="btn btn-grey mx-auto top d-none" id="topBtn"
+          <a
+            href="#top"
+            class="btn btn-grey mx-auto top d-none mb-3"
+            id="topBtn"
             ><i class="bx bxs-chevron-up fs-3"></i
           ></a>
         </div>
@@ -345,8 +401,8 @@
     </div>
 
     <!--Container Main end-->
+    <script src="../../js/bootstrap.bundle.min.js"></script>
     <script src="../../js/main.js"></script>
     <script src="../../js/manager/employee.js"></script>
-    <script src="../../js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
