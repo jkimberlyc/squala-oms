@@ -25,7 +25,19 @@
     ></script>
     <title>Dashboard</title>
   </head>
-  <body id="body-pd">
+  <body id="body-pd" class="overflow-hidden">
+    <div
+      class="d-flex justify-content-center align-items-center loader"
+      style="height: 100vh"
+    >
+      <div
+        class="spinner-border text-danger"
+        style="width: 5rem; height: 5rem"
+        role="status"
+      >
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
     <header class="header" id="header">
       <div class="header_toggle">
         <i class="bx bx-menu" id="header-toggle"></i>
@@ -56,7 +68,7 @@
           <!-- <li>
             <hr class="dropdown-divider" />
           </li> -->
-          <li><a class="dropdown-item" href="#">Sign out</a></li>
+          <li><a class="dropdown-item" href="../login.html">Sign out</a></li>
         </ul>
       </div>
     </header>
@@ -74,12 +86,12 @@
               <span class="nav_name">Dashboard</span>
             </a>
             <a href="#" class="nav_link active">
-              <i class="bx bx-user nav_icon"></i>
+              <i class="bx bxs-user-rectangle nav_icon"></i>
               <span class="nav_name">Profile</span>
             </a>
           </div>
         </div>
-        <a href="#" class="nav_link">
+        <a href="../login.html" class="nav_link">
           <i class="bx bx-log-out nav_icon"></i>
           <span class="nav_name">SignOut</span>
         </a>
@@ -95,40 +107,50 @@
               <p class="lead fw-bolder">My Profile</p>
               <!-- PROFILE CONTENT-->
               <div class="row mb-1">
-                <div class="col-md-3 px-5 bg-secondary text-white align-middle"><span class="align-middle fs-5">Name:</span></div>
+                <div class="col-md-3 px-5 bg-secondary text-white align-middle">
+                  <span class="align-middle fs-5">Name:</span>
+                </div>
                 <div class="col">
-                  <span class="px-5 fs-4 fw-semibold"id="displayName"></span>
+                  <span class="px-5 fs-4 fw-semibold" id="displayName"></span>
                 </div>
               </div>
               <div class="row mb-1">
-                <div class="col-md-3 px-5 bg-secondary text-white align-middle"><span class="align-middle fs-5">Contact:</span></div> 
+                <div class="col-md-3 px-5 bg-secondary text-white align-middle">
+                  <span class="align-middle fs-5">Contact:</span>
+                </div>
                 <div class="col">
-                  <span class="px-5 fs-4 fw-semibold" id="displayContact"></span>
+                  <span
+                    class="px-5 fs-4 fw-semibold"
+                    id="displayContact"
+                  ></span>
                 </div>
               </div>
-              <div class="row mb-1">  
-                <div class="col-md-3 px-5 bg-secondary text-white align-middle"><span class="align-middle fs-5">Address:</span></div>
-                <div class="col">
-                  <span class="px-5 fs-4 fw-semibold" id="displayAddress"></span>
+              <div class="row mb-1">
+                <div class="col-md-3 px-5 bg-secondary text-white align-middle">
+                  <span class="align-middle fs-5">Address:</span>
                 </div>
-              </div> 
-              <div class="row mb-1">   
-                <div class="col-md-3 px-5 bg-secondary text-white align-middle"><span class="align-middle fs-5">Designation:</span></div> 
+                <div class="col">
+                  <span
+                    class="px-5 fs-4 fw-semibold"
+                    id="displayAddress"
+                  ></span>
+                </div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-md-3 px-5 bg-secondary text-white align-middle">
+                  <span class="align-middle fs-5">Designation:</span>
+                </div>
                 <div class="col">
                   <span class="px-5 fs-4 fw-semibold" id="displayDesig"></span>
                 </div>
               </div>
               <div class="row mb-1">
-                <div class="col-md-3 px-5 bg-secondary text-white align-middle"><span class="align-middle fs-5">Skills:</span></div> 
-                <div class="col">
-                  <span  class="px-5 fs-4 fw-semibold" id="displaySkills"></span>
+                <div class="col-md-3 px-5 bg-secondary text-white align-middle">
+                  <span class="align-middle fs-5">Skills:</span>
                 </div>
-              </div>
-              <div class="row mb-1"> 
-                <div class="col-md-3 px-5 bg-secondary text-white align-middle"><span class="align-middle fs-5">Assignement:</span></div>
                 <div class="col">
-                  <span class="px-5 fs-4 fw-semibold" id="displayProject"></span>
-                </div>                  
+                  <span class="px-5 fs-4 fw-semibold" id="displaySkills"></span>
+                </div>
               </div>
             </div>
           </main>
@@ -144,7 +166,7 @@
             <a href="#" class="text-danger mx-2">About Us</a>
             <a href="#" class="text-danger mx-2">Contact Us</a>
           </div>
-          <div class="small ms-sm-auto text-center">
+          <div class="small ms-sm-auto text-center d-sm-block d-none">
             &copy; Copyright 2022, Cyberpunk Builders. All Rights Reserved
           </div>
         </footer>
@@ -152,8 +174,9 @@
     </div>
 
     <!--Container Main end-->
+    <script src="../../js/init.js"></script>
     <script src="../../js/main.js"></script>
-    <script src="../../js/employee/employee.js"></script>
+    <script src="../../js/employee/profile.js"></script>
     <script src="../../js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

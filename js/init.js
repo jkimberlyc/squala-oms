@@ -6,9 +6,63 @@ const projects = [
         projectStart: "",
         projectEnd: "",
         projectForeman: "1",
-        workers: ["1", "2"], //employee ID
-        tasks: ["1", "2", "3"], //task ID
-        tools: ["1", "2", "3"], //tools ID
+        // workers: ["1", "2"], //employee ID
+        // tasks: ["1", "2", "3"], //task ID
+        workers: [
+            {
+                id: "1",
+                Name: "Joe Poe",
+                designation: "Foreman",
+                number: "19121122122",
+                old_id: "1"
+            },
+            {
+                id: "2",
+                Name: "Jocelyn Phils",
+                designation: "Skilled",
+                number: "09121122122",
+                old_id: "2"
+            }
+        ],
+        tasks: [
+            {
+                id: "1",
+                projectId: "1",
+                taskName: "Excavation of Column Footing A",
+                targetDate: "November",
+                status: "Ongoing"
+            },
+            {
+                id: "2",
+                projectId: "1",
+                taskName: "Excavation of Footing Tie Beam A",
+                targetDate: "August",
+                status: "Incomplete"
+            },
+            {
+                id: "3",
+                projectId: "1",
+                taskName: "Assembly of Column Rebars A",
+                targetDate: "September",
+                status: "Incomplete"
+            }],
+        // tools: ["1", "2", "3"], //tools ID
+        tools: [
+            {
+                id: "1",
+                projectId: "1",
+                tool: "Grinder",
+                quantity: "2",
+                status: "Available"
+            },
+            {
+                id: "2",
+                projectId: "1",
+                tool: "Grinder",
+                quantity: "2",
+                status: "Available"
+            }
+        ],
         completed: false
     },
     {   
@@ -19,8 +73,45 @@ const projects = [
         projectEnd: "",
         projectForeman: "",
         workers: [], //employee ID
-        tasks: ["1", "2", "3"], //task ID
-        tools: ["1", "2", "3"], //tools ID
+        tasks: [
+            {
+                id: "1",
+                projectId: "1",
+                taskName: "Excavation of Column Footing A",
+                targetDate: "November",
+                status: "Ongoing"
+            },
+            {
+                id: "2",
+                projectId: "1",
+                taskName: "Excavation of Footing Tie Beam A",
+                targetDate: "August",
+                status: "Incomplete"
+            },
+            {
+                id: "3",
+                projectId: "1",
+                taskName: "Assembly of Column Rebars A",
+                targetDate: "September",
+                status: "Incomplete"
+            }],
+        // tools: ["1", "2", "3"], //tools ID
+        tools: [
+            {
+                id: "1",
+                projectId: "1",
+                tool: "Grinder",
+                quantity: "2",
+                status: "Available"
+            },
+            {
+                id: "2",
+                projectId: "1",
+                tool: "Grinder",
+                quantity: "2",
+                status: "Available"
+            }
+        ],
         completed: false
     }
 ]
@@ -71,49 +162,49 @@ const attendance = [
     }
 ]
 
-const tasks = [
-    {
-        id: "1",
-        projectId: "1",
-        taskName: "Excavation of Column Footing A",
-        targetDate: "November",
-        dateAdded: "",
-        status: "Ongoing"
-    },
-    {
-        id: "2",
-        projectId: "1",
-        taskName: "Excavation of Footing Tie Beam A",
-        targetDate: "August",
-        dateAdded: "",
-        status: "Incomplete"
-    },
-    {
-        id: "3",
-        projectId: "1",
-        taskName: "Assembly of Column Rebars A",
-        targetDate: "September",
-        dateAdded: "",
-        status: "Incomplete"
-    }
-]
+// const tasks = [
+//     {
+//         id: "1",
+//         projectId: "1",
+//         taskName: "Excavation of Column Footing A",
+//         targetDate: "November",
+//         dateAdded: "",
+//         status: "Ongoing"
+//     },
+//     {
+//         id: "2",
+//         projectId: "1",
+//         taskName: "Excavation of Footing Tie Beam A",
+//         targetDate: "August",
+//         dateAdded: "",
+//         status: "Incomplete"
+//     },
+//     {
+//         id: "3",
+//         projectId: "1",
+//         taskName: "Assembly of Column Rebars A",
+//         targetDate: "September",
+//         dateAdded: "",
+//         status: "Incomplete"
+//     }
+// ]
 
-const tools = [
-    {
-        id: "1",
-        projectId: "1",
-        tool: "Grinder",
-        quantity: "2",
-        status: "Available"
-    },
-    {
-        id: "2",
-        projectId: "1",
-        tool: "Grinder",
-        quantity: "2",
-        status: "Available"
-    }
-]
+// const tools = [
+//     {
+//         id: "1",
+//         projectId: "1",
+//         tool: "Grinder",
+//         quantity: "2",
+//         status: "Available"
+//     },
+//     {
+//         id: "2",
+//         projectId: "1",
+//         tool: "Grinder",
+//         quantity: "2",
+//         status: "Available"
+//     }
+// ]
 
 const accounts = [
     {
@@ -139,8 +230,8 @@ const accounts = [
 localStorage.setItem("projects", JSON.stringify(projects));
 localStorage.setItem("employees", JSON.stringify(employees));
 localStorage.setItem("attendance", JSON.stringify(attendance));
-localStorage.setItem("tasks", JSON.stringify(tasks));
-localStorage.setItem("tools", JSON.stringify(tools));
+// localStorage.setItem("tasks", JSON.stringify(tasks));
+// localStorage.setItem("tools", JSON.stringify(tools));
 localStorage.setItem("accounts", JSON.stringify(accounts));
 sessionStorage.setItem("createAlert", JSON.stringify(""));
 sessionStorage.setItem("editAlert", JSON.stringify(""));

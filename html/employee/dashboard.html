@@ -25,7 +25,19 @@
     ></script>
     <title>Dashboard</title>
   </head>
-  <body id="body-pd">
+  <body id="body-pd" class="overflow-hidden">
+    <div
+      class="d-flex justify-content-center align-items-center loader"
+      style="height: 100vh"
+    >
+      <div
+        class="spinner-border text-danger"
+        style="width: 5rem; height: 5rem"
+        role="status"
+      >
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
     <header class="header" id="header">
       <div class="header_toggle">
         <span class=""><i class="bx bx-menu" id="header-toggle"></i></span>
@@ -56,7 +68,9 @@
           <!-- <li>
             <hr class="dropdown-divider" />
           </li> -->
-          <li><a class="dropdown-item" href="#">Sign out</a></li>
+          <li>
+            <a class="dropdown-item logout" href="../login.html">Sign out</a>
+          </li>
         </ul>
       </div>
     </header>
@@ -73,13 +87,13 @@
               <i class="bx bx-grid-alt nav_icon"></i>
               <span class="nav_name">Dashboard</span>
             </a>
-            <a href="employee.html" class="nav_link">
-              <i class="bx bx-user nav_icon"></i>
+            <a href="profile.html" class="nav_link">
+              <i class="bx bxs-user-rectangle nav_icon"></i>
               <span class="nav_name">Profile</span>
             </a>
           </div>
         </div>
-        <a href="#" class="nav_link">
+        <a href="../login.html" class="nav_link logout">
           <i class="bx bx-log-out nav_icon"></i>
           <span class="nav_name">SignOut</span>
         </a>
@@ -97,40 +111,61 @@
                 <!-- PROJECT 2 -->
                 <div
                   class="card ms-sm-0 me-sm-3 mx-auto mt-sm-0 mt-3 border-2 border-danger bg-white shadow"
-                  style="width: 18rem">
+                  style="width: 18rem"
+                >
                   <img
                     src="../../img/project-thumb.jpg"
                     class="card-img-top"
                     alt="..."
                   />
                   <div class="card-body">
-                    <h5 class="card-title">
-                      Project 2<span class="badge text-bg-success ms-1"
-                        >Ongoing</span
+                    <div class="card-title row lead fs-5 fw-bold mb-2">
+                      <div class="col-12" id="projectStatus">
+                        <span class="badge text-bg-success w-100">Ongoing</span>
+                      </div>
+                    </div>
+                    <div class="card-text small mb-1">
+                      <div class="row">
+                        <div class="col-4 fw-bold">Name:</div>
+                        <div class="col" id="projectName"></div>
+                      </div>
+                      <div class="row">
+                        <div class="col-4 fw-bold">Location:</div>
+                        <div class="col" id="projectAddress"></div>
+                        <divr />
+                      </div>
+                      <div class="row">
+                        <div class="col-4 fw-bold">Start:</div>
+                        <div class="col" id="projectStart"></div>
+                        <divr />
+                      </div>
+                      <div class="row">
+                        <div class="col-4 fw-bold">End:</div>
+                        <div class="col" id="projectEnd"></div>
+                      </div>
+                    </div>
+
+                    <hr class="text-danger" />
+
+                    <div class="d-block text-center">
+                      <a
+                        id=""
+                        href="#"
+                        class="modalBtn btn btn-danger text-white"
+                        data-bs-toggle="modal"
+                        data-bs-target="#projectModal"
+                        >Open</a
                       >
-                    </h5>
-                    <p class="card-text small">
-                      <b>Location:</b> Makati<br /><b>Start:</b> March 2022<br /><b
-                        >End: </b
-                      >--
-                    </p>
-                    <a
-                      id="2"
-                      href="#"
-                      class="modalBtn btn btn-danger text-white"
-                      data-bs-toggle="modal"
-                      data-bs-target="#projectTwoModal"
-                      >Open</a
-                    >
+                    </div>
                   </div>
                 </div>
 
-                <!-- PROJECT 2 MODAL -->
+                <!-- PROJECT MODAL -->
                 <div
                   class="modal fade"
-                  id="projectTwoModal"
+                  id="projectModal"
                   tabindex="-1"
-                  aria-labelledby="projectTwoModalLabel"
+                  aria-labelledby="projectModalLabel"
                   aria-hidden="true"
                 >
                   <div
@@ -138,7 +173,7 @@
                   >
                     <div class="modal-content border-2 border-danger">
                       <div class="modal-header border-danger bg-light">
-                        <h5 class="modal-title" id="projectTwoModalLabel">
+                        <h5 class="modal-title" id="projectModalLabel">
                           Project Overview
                         </h5>
                         <button
@@ -150,63 +185,59 @@
                       </div>
                       <div class="modal-body px-4">
                         <div class="d-sm-flex flex-column">
-                          <div class="row mb-2">
-                            <div
-                              class="col text-sm-end text-center d-sm-none d-block"
-                            >
-                              <button class="btn btn-success">Time In</button>
-                              <button class="btn btn-warning" disabled>
+                          <div class="row">
+                            <div class="col text-sm-end text-center mb-2">
+                              <button id="timeIn" class="btn btn-success">
+                                Time In
+                              </button>
+                              <button
+                                id="timeOut"
+                                class="btn btn-warning"
+                                disabled
+                              >
                                 Time Out
                               </button>
                             </div>
                           </div>
 
                           <div class="row">
-                            <div class="col-sm-3 col-5 fw-bold">
+                            <div class="col-sm-3 col-6 fw-bold">
                               <span class="align-middle">Project Name:</span>
                             </div>
                             <div class="col text-start" id="projName">
-                              <span class="align-middle">Project 2</span>
-                            </div>
-                            <div class="col text-end d-sm-block d-none">
-                              <button class="btn btn-success btn-sm">
-                                Time In
-                              </button>
-                              <button class="btn btn-warning btn-sm" disabled>
-                                Time Out
-                              </button>
+                              <!-- <span class="">Project 2</span> -->
                             </div>
                           </div>
 
                           <div class="row">
-                            <div class="col-sm-3 col-5 fw-bold">
+                            <div class="col-sm-3 col-6 fw-bold">
                               Project Address:
                             </div>
                             <div class="col text-start" id="projAddress">
-                              Lot 1, Block 2, Lorem Street, Ipsum City
+                              <!-- Lot 1, Block 2, Lorem Street, Ipsum City -->
                             </div>
                           </div>
 
                           <div class="row">
-                            <div class="col-sm-3 col-5 fw-bold">Foreman:</div>
+                            <div class="col-sm-3 col-6 fw-bold">Foreman:</div>
                             <div class="col text-start" id="projForeman">
-                              Jocelyn Phils
+                              <!-- Jocelyn Phils -->
                             </div>
                           </div>
 
                           <div class="row">
-                            <div class="col-sm-3 col-5 fw-bold">
+                            <div class="col-sm-3 col-6 fw-bold">
                               Start Date:
                             </div>
                             <div class="col text-start" id="projStart">
-                              Aug 11, 2021
+                              <!-- Aug 11, 2021 -->
                             </div>
                           </div>
 
                           <div class="row">
-                            <div class="col-sm-3 col-5 fw-bold">End Date:</div>
+                            <div class="col-sm-3 col-6 fw-bold">End Date:</div>
                             <div class="col text-start" id="projEnd">
-                              Jan 11, 2022
+                              <!-- Jan 11, 2022 -->
                             </div>
                           </div>
 
@@ -244,34 +275,14 @@
                                 <div class="table-responsive">
                                   <table
                                     class="table table-hover text-sm-center"
-                                    id="tasks"
                                   >
-                                    <tr>
-                                      <th>Task Items</th>
-                                      <th>Target</th>
-                                      <th>Status</th>
-                                    </tr>
-                                    <tr>
-                                      <td data-label="Task Item">
-                                        Excavation of Column Footing A
-                                      </td>
-                                      <td data-label="Target">September</td>
-                                      <td data-label="Status">Incomplete</td>
-                                    </tr>
-                                    <tr>
-                                      <td data-label="Task Item">
-                                        Excavation of Footing Tie Beam A
-                                      </td>
-                                      <td data-label="Target">November</td>
-                                      <td data-label="Status">Ongoing</td>
-                                    </tr>
-                                    <tr>
-                                      <td data-label="Task Item">
-                                        Assembly of Column Rebars A
-                                      </td>
-                                      <td data-label="Target">December</td>
-                                      <td data-label="Status">Ongoing</td>
-                                    </tr>
+                                    <tbody id="tasks">
+                                      <tr>
+                                        <th>Task Items</th>
+                                        <th>Target</th>
+                                        <th>Status</th>
+                                      </tr>
+                                    </tbody>
                                   </table>
                                 </div>
                                 <!-- END OF TABLE -->
@@ -309,7 +320,7 @@
             <a href="#" class="text-danger mx-2">About Us</a>
             <a href="#" class="text-danger mx-2">Contact Us</a>
           </div>
-          <div class="small ms-sm-auto text-center">
+          <div class="small ms-sm-auto text-center d-sm-inline-block d-none">
             &copy; Copyright 2022, Cyberpunk Builders. All Rights Reserved
           </div>
         </footer>
