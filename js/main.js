@@ -1,16 +1,27 @@
 import * as test from "./manager/dashboard.js"; 
 
-
 test.projOnload()
-
-
-const cards = document.querySelectorAll(".card");
 
 const projectList = JSON.parse(localStorage.getItem("projects"));
 const employeeList = JSON.parse(localStorage.getItem("employees"));
 const taskList = JSON.parse(localStorage.getItem("tasks"));
 const toolsList = JSON.parse(localStorage.getItem("tools"));
+const attendList = JSON.parse(localStorage.getItem("attendance"));
+const accountList = JSON.parse(localStorage.getItem("accounts"));
 const modalBtns = document.querySelectorAll(".modalBtn"); //get all Open Project buttons
+
+function setProfile(){
+	var user = JSON.parse(sessionStorage.getItem("userId"));
+	
+	if(user == "") window.location.href = "../../html/login.html"
+	else if(user === "admin"){
+		document.getElementById("profileName").innerHTML = "Manager";
+	}
+	else{
+		var thisEmployee = employeeList.filter((obj) => obj.id === user);
+		document.getElementById("profileName").innerHTML = thisEmployee[0].firstName;
+	}
+}
 
 function searchTable(inputElement, tableElement) {
 	var input, filter, found, table, tr, td, i, j;
@@ -21,7 +32,7 @@ function searchTable(inputElement, tableElement) {
 
 	if (input.value == "Filter by project") location.reload();
 	else {
-        if(inputElement == "filter" && tableElement == "attendance") document.getElementById("datePicker").valueAsDate = null;
+        // if(inputElement == "filter" && tableElement == "attendance") document.getElementById("datePicker").valueAsDate = null;
         
 		for (i = 1; i < tr.length; i++) {
 			td = tr[i].getElementsByTagName("td");
@@ -63,6 +74,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				// document.getElementById("logo-icon").classList.toggle("d-none");
 			})
 		}
+		setProfile();
 	}
 
 	showNavbar('header-toggle', 'nav-bar', 'body-pd', 'header')
@@ -81,7 +93,40 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	// Your code to run since DOM is loaded and ready
 });
 
+function updateSelectFilter() {
+    var filterSelect = document.getElementById("filter");
+    filterSelect.innerHTML = "<option selected onclick='history.go(0)'>Filter by project</option>";
 
+    const options = projectList.map(function (project) {
+        return project.projectName;
+    });
+
+    for(i in options){
+        var option = document.createElement("option");
+        option.value = options[i];
+        option.textContent = options[i];
+        filterSelect.appendChild(option);
+    }
+}
+
+//populate project input datalist
+function updateSelectProject() {
+    var projSelect = document.getElementById("inputProject");
+
+    //reset select options
+    projSelect.innerHTML = "";
+
+    const options = projectList.map(function (project) {
+        return project.projectName;
+    });
+
+    for(i in options){
+        var option = document.createElement("option");
+        option.value = options[i];
+        option.textContent = options[i];
+        projSelect.appendChild(option);
+    }
+}
 
 const showOnPx = 100;
 const backToTopButton = document.getElementById("topBtn");
@@ -106,4 +151,12 @@ function addProject(){
 test.addProject()
 }
 
+const logout = document.getElementsByClassName("logout");
 
+for(let i = 0; i<logout.length; i++){
+	logout[i].addEventListener("click", () =>{
+		sessionStorage.setItem("user", JSON.stringify(""));
+		sessionStorage.setItem("userId", JSON.stringify(""));
+		window.location.href = "../login.html";
+	})
+}
