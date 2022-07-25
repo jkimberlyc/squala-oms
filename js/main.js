@@ -1,3 +1,6 @@
+import * as test from "./manager/dashboard.js"; 
+
+test.projOnload()
 
 const projectList = JSON.parse(localStorage.getItem("projects"));
 const employeeList = JSON.parse(localStorage.getItem("employees"));
@@ -143,6 +146,10 @@ scrollContainer().addEventListener("scroll", () => {
 document.querySelector(".nav_logo-name").addEventListener("click", () => {
     window.location.href = "dashboard.html";
 })
+
+function addProject(){
+test.addProject()
+}
 
 const logout = document.getElementsByClassName("logout");
 
