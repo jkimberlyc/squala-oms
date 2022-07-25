@@ -1,3 +1,20 @@
+window.addEventListener("load", function() {
+    authenticateUser();
+    window.setTimeout(() => {
+        document.querySelector(".loader").classList.add("d-none");
+        document.body.classList.replace("overflow-hidden", "overflow-auto");
+    }, 300)
+})
+
+function authenticateUser(){
+    var user = sessionStorage.getItem("user");
+
+    if(user === "") window.location.href="../../html/login.html"
+    else if(user === "Foreman") window.location.href="../../html/foreman/dashboard.html"
+    else if(user === "Employee") window.location.href="../../html/employee/dashboard.html"
+    
+}
+
 const projectList = JSON.parse(localStorage.getItem("projects"));
 const employeeList = JSON.parse(localStorage.getItem("employees"));
 const taskList = JSON.parse(localStorage.getItem("tasks"));
@@ -13,11 +30,6 @@ var forSavId = ""
 var getTaskstatus = []
 var EditProject = []
 var editProjData= []
-
-
-
-
-
 
  //project ID
 const getProjectItem = localStorage.getItem("projects");
@@ -143,6 +155,7 @@ export function projOnload(){
             //to display foreman, parse employee -> filter with foreman ID -> display name 
             
             let foremanID = thisProject[0].projectForeman;
+            console.log(thisProject[0]);
             let thisForeman = employeeList.filter((obj) => obj.id == foremanID);
             document.getElementById("viewProjName").innerHTML = thisProject[0].projectName;
             document.getElementById("viewProjAddress").innerHTML = thisProject[0].projectAddress;
@@ -234,7 +247,7 @@ export function projOnload(){
                 }
                
             //View Task
-            let taskArray = thisProject[0].task;
+            let taskArray = thisProject[0].tasks;
             
             let taskTable = document.getElementById("editTasks");
             taskTable.innerHTML = "<th>Task Item</th><th>Target</th><th>Status</th><th></th>";
@@ -533,7 +546,7 @@ export function projOnload(){
         }
         //View Task
         
-        let taskArray = thisProject[0].task;
+        let taskArray = thisProject[0].tasks;
         let taskTable = document.getElementById("editTasks");
         taskTable.innerHTML = "<th>Task Item</th><th>Target</th><th>Status</th><th></th>";
         
@@ -2086,7 +2099,7 @@ function Cancel(id){
     
     }
     //View Task
-    let taskArray = thisProject[0].task;
+    let taskArray = thisProject[0].tasks;
             
     let taskTable = document.getElementById("editTasks");
     taskTable.innerHTML = "<th>Task Item</th><th>Target</th><th>Status</th><th></th>";
