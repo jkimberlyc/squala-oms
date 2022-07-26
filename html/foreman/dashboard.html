@@ -23,9 +23,22 @@
       src="https://kit.fontawesome.com/72268adad8.js"
       crossorigin="anonymous"
     ></script>
+
     <title>Dashboard</title>
   </head>
-  <body id="body-pd">
+  <body id="body-pd" class="overflow-hidden">
+    <div
+      class="d-flex justify-content-center align-items-center loader"
+      style="height: 100vh"
+    >
+      <div
+        class="spinner-border text-danger"
+        style="width: 5rem; height: 5rem"
+        role="status"
+      >
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
     <header class="header" id="header">
       <div class="header_toggle">
         <i class="bx bx-menu" id="header-toggle"></i>
@@ -52,11 +65,13 @@
           class="dropdown-menu dropdown-menu-dark text-small shadow"
           aria-labelledby="dropdownUser"
         >
-          <li><a class="dropdown-item" href="#">Profile</a></li>
+          <li><a class="dropdown-item" href="profile.html">Profile</a></li>
           <!-- <li>
             <hr class="dropdown-divider" />
           </li> -->
-          <li><a class="dropdown-item" href="#">Sign out</a></li>
+          <li>
+            <a class="dropdown-item logout" href="../login.html">Sign out</a>
+          </li>
         </ul>
       </div>
     </header>
@@ -68,7 +83,7 @@
               ><i class="fa-solid fa-s nav_logo-icon"></i
             ></span> -->
             <span class="nav_logo-name"
-              ><img src="../../img/squala-red.png" width="190px"
+              ><img src="../../img/squala-red.png" width="190px" alt=""
             /></span>
           </a>
           <div class="nav_list">
@@ -84,10 +99,14 @@
               <i class="bx bx-calendar-check nav_icon"></i>
               <span class="nav_name">Attendance</span>
             </a>
+            <a href="profile.html" class="nav_link">
+              <i class="bx bxs-user-rectangle nav_icon"></i>
+              <span class="nav_name">Profile</span>
+            </a>
           </div>
         </div>
-        <a href="#" class="nav_link">
-          <i class="bx bx-log-out nav_icon"></i>
+        <a href="../login.html" class="nav_link">
+          <i class="bx bx-log-out nav_icon logout"></i>
           <span class="nav_name">SignOut</span>
         </a>
       </nav>
@@ -100,102 +119,91 @@
             <div class="col p-4">
               <h3 class="invisible mb-4" id="top">Dashboard Page</h3>
               <p class="lead fw-bolder">Current Projects</p>
-              <div class="d-sm-flex flex-row">
-                <!-- PROJECT 1 CARD -->
+              <div class="d-sm-flex flex-row" id="projCard"></div>
+              <!-- PROJECT 1 MODAL -->
+              <div
+                class="modal fade"
+                id="projectOneModal"
+                data-bs-backdrop="static"
+                tabindex="-1"
+                aria-labelledby="projectOneModalLabel"
+                aria-hidden="true"
+              >
                 <div
-                  class="card ms-sm-0 me-sm-3 mx-auto mt-sm-0 mt-3 border-2 border-danger bg-white shadow"
-                  style="width: 18rem"
+                  class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
                 >
-                  <img
-                    src="../../img/project-thumb.jpg"
-                    class="card-img-top"
-                    alt="..."
-                  />
-                  <div class="card-body">
-                    <h5 class="card-title">
-                      Project 1<span class="badge text-bg-success ms-1"
-                        >Ongoing</span
-                      >
-                    </h5>
-                    <p class="card-text small">
-                      <b>Location:</b> Cebu<br /><b>Start:</b> August 2021<br /><b
-                        >End: </b
-                      >--
-                    </p>
-                    <a
-                      id="1"
-                      href="#"
-                      class="modalBtn btn btn-danger text-white"
-                      data-bs-toggle="modal"
-                      data-bs-target="#projectOneModal"
-                      >Open</a
-                    >
-                  </div>
-                </div>
-                <!-- END OF PROJECT 1 CARD -->
-
-                <!-- PROJECT 1 MODAL -->
-                <div
-                  class="modal fade"
-                  id="projectOneModal"
-                  tabindex="-1"
-                  aria-labelledby="projectOneModalLabel"
-                  aria-hidden="true"
-                >
-                  <div
-                    class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
-                  >
-                    <div class="modal-content border-2 border-danger">
-                      <div class="modal-header border-danger bg-light">
-                        <h5 class="modal-title" id="projectOneModalLabel">
-                          Project Overview
-                        </h5>
-                        <button
-                          type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
-                      </div>
+                  <div class="modal-content border-2 border-danger">
+                    <div class="modal-header border-danger bg-light">
+                      <h5 class="modal-title" id="projectOneModalLabel">
+                        Project Overview
+                      </h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <form id="Editfrom">
                       <div class="modal-body px-4">
+                        <div class="row">
+                          <div class="col text-sm-end text-center mb-2">
+                            <button
+                              id="timeIn"
+                              class="btn btn-success"
+                              type="button"
+                            >
+                              Time In
+                            </button>
+                            <button
+                              id="timeOut"
+                              class="btn btn-warning"
+                              type="button"
+                              disabled
+                            >
+                              Time Out
+                            </button>
+                          </div>
+                        </div>
+
                         <div class="d-sm-flex flex-column">
-                          <div class="row">
+                          <div class="row mb-3">
                             <div class="col-sm-3 col-5 fw-bold">
                               Project Name:
                             </div>
-                            <div class="col text-start" id="projName">
+                            <div class="col text-start" id="viewProjName">
                               <!-- Project 1 -->
                             </div>
                           </div>
 
-                          <div class="row">
+                          <div class="row mb-3">
                             <div class="col-sm-3 col-5 fw-bold">
                               Project Address:
                             </div>
-                            <div class="col text-start" id="projAddress">
+                            <div class="col text-start" id="viewProjAddress">
                               <!-- Lot 1, Block 2, Lorem Street, Ipsum City -->
                             </div>
                           </div>
 
-                          <div class="row">
+                          <div class="row mb-3">
                             <div class="col-sm-3 col-5 fw-bold">Foreman:</div>
-                            <div class="col text-start" id="projForeman">
+                            <div class="col text-start" id="viewProjForeman">
                               <!-- Joe Poe -->
                             </div>
                           </div>
 
-                          <div class="row">
+                          <div class="row mb-3">
                             <div class="col-sm-3 col-5 fw-bold">
                               Start Date:
                             </div>
-                            <div class="col text-start" id="projStart">
+                            <div class="col text-start" id="viewProjStart">
                               <!-- Aug 11, 2021 -->
                             </div>
                           </div>
 
-                          <div class="row">
+                          <div class="row mb-3">
                             <div class="col-sm-3 col-5 fw-bold">End Date:</div>
-                            <div class="col text-start" id="projEnd">
+                            <div class="col text-start" id="viewProjectEnd">
                               <!-- Aug 11, 2021 -->
                             </div>
                           </div>
@@ -263,36 +271,43 @@
                                       placeholder="Enter employee name"
                                       aria-label="Employee"
                                       aria-describedby="basic-addon2"
-                                      id="searchEmployee"
-                                      onkeyup="searchTable('searchEmployee', 'workers')"
+                                      id="searchEditEmployee"
                                     />
-                                    <div class="input-group-append">
-                                      <button
-                                        class="btn btn-outline-danger border rounded border-right"
-                                        type="button"
-                                      >
-                                        Search
-                                      </button>
-                                    </div>
                                   </div>
                                 </form>
                                 <!-- END OF SEARCH BAR -->
                                 <!-- MANPOWER TABLE -->
                                 <div class="table-responsive">
-                                  <table
-                                    class="table text-sm-center"
-                                    id="workers"
-                                  >
-                                    <tr>
-                                      <th>Name</th>
-                                      <th>Designation</th>
-                                      <th>Number</th>
-                                      <th></th>
-                                      <th></th>
-                                    </tr>
+                                  <table class="table text-sm-center">
+                                    <tbody id="editWorkers">
+                                      <tr>
+                                        <th>Name</th>
+                                        <th>Designation</th>
+                                        <th>Number</th>
+                                        <th></th>
+                                        <th></th>
+                                      </tr>
+                                    </tbody>
                                   </table>
                                 </div>
                                 <!-- END OF TABLE -->
+                                <div class="input-group mt-3 w-75">
+                                  <select
+                                    id="editSelWorkers"
+                                    class="form-select"
+                                    hidden
+                                  >
+                                    >
+                                  </select>
+                                  <button
+                                    class="btn btn-outline-danger"
+                                    id="editWorkersBtn"
+                                    type="button"
+                                    hidden
+                                  >
+                                    Add Workers
+                                  </button>
+                                </div>
                               </div>
                               <div
                                 class="tab-pane fade"
@@ -310,31 +325,22 @@
                                       placeholder="Enter task to search"
                                       aria-label="Task"
                                       aria-describedby="basic-addon2"
-                                      id="searchTask"
-                                      onkeyup="searchTable('searchTask', 'tasks')"
+                                      id="searchEditTask"
                                     />
-                                    <div class="input-group-append">
-                                      <button
-                                        class="btn btn-outline-danger border rounded border-right"
-                                        type="button"
-                                      >
-                                        Search
-                                      </button>
-                                    </div>
                                   </div>
                                 </form>
                                 <!-- END OF SEARCH BAR -->
                                 <!-- TASKS TABLE -->
                                 <div class="table-responsive">
-                                  <table
-                                    class="table text-sm-center"
-                                    id="tasks"
-                                  >
-                                    <tr>
-                                      <th>Task Items</th>
-                                      <th>Target</th>
-                                      <th>Status</th>
-                                    </tr>
+                                  <table class="table text-sm-center">
+                                    <tbody id="editTasks">
+                                      <tr>
+                                        <th>Task Items</th>
+                                        <th>Target</th>
+                                        <th>Status</th>
+                                      </tr>
+                                    </tbody>
+                                    <tfoot id="editFtask"></tfoot>
                                   </table>
                                 </div>
                                 <!-- END OF TABLE -->
@@ -354,31 +360,22 @@
                                       placeholder="Enter tool to search"
                                       aria-label="Tools"
                                       aria-describedby="basic-addon2"
-                                      id="searchTool"
-                                      onkeyup="searchTable('searchTools', 'tools')"
+                                      id="searchEditTools"
                                     />
-                                    <div class="input-group-append">
-                                      <button
-                                        class="btn btn-outline-danger border rounded border-right"
-                                        type="button"
-                                      >
-                                        Search
-                                      </button>
-                                    </div>
                                   </div>
                                 </form>
                                 <!-- END OF SEARCH BAR -->
                                 <!-- TOOLS TABLE -->
                                 <div class="table-responsive">
-                                  <table
-                                    class="table text-sm-center"
-                                    id="tools"
-                                  >
-                                    <tr>
-                                      <th>Item</th>
-                                      <th>Quantity</th>
-                                      <th>Status</th>
-                                    </tr>
+                                  <table class="table text-sm-center">
+                                    <tbody id="editTools">
+                                      <tr>
+                                        <th>Item</th>
+                                        <th>Quantity</th>
+                                        <th>Status</th>
+                                      </tr>
+                                    </tbody>
+                                    <tfoot id="feditTools"></tfoot>
                                   </table>
                                 </div>
                                 <!-- END OF TABLE -->
@@ -387,525 +384,338 @@
                           </div>
                         </div>
                       </div>
-                      <div class="modal-footer border-danger bg-light">
-                        <button
-                          type="button"
-                          class="btn btn-secondary"
-                          data-bs-dismiss="modal"
-                        >
-                          Close
-                        </button>
-                        <button type="button" class="btn btn-danger text-white">
-                          Save changes
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- END OF PROJECT 1 MODAL -->
 
-                <!-- PROJECT 2 -->
-                <div
-                  class="card ms-sm-0 me-sm-3 mx-auto mt-sm-0 mt-3 border-2 border-danger bg-white shadow"
-                  style="width: 18rem"
-                >
-                  <img
-                    src="../../img/project-thumb.jpg"
-                    class="card-img-top"
-                    alt="..."
-                  />
-                  <div class="card-body">
-                    <h5 class="card-title">
-                      Project 2<span class="badge text-bg-success ms-1"
-                        >Ongoing</span
+                      <div
+                        class="modal-footer border-danger bg-light"
+                        id="fmodal"
                       >
-                    </h5>
-                    <p class="card-text small">
-                      <b>Location:</b> Makati<br /><b>Start:</b> March 2022<br /><b
-                        >End: </b
-                      >--
-                    </p>
-                    <a
-                      id="2"
-                      href="#"
-                      class="modalBtn btn btn-danger text-white"
-                      data-bs-toggle="modal"
-                      data-bs-target="#projectTwoModal"
-                      >Open</a
-                    >
-                  </div>
-                </div>
-
-                <!-- PROJECT 2 MODAL -->
-                <div
-                  class="modal fade"
-                  id="projectTwoModal"
-                  tabindex="-1"
-                  aria-labelledby="projectTwoModalLabel"
-                  aria-hidden="true"
-                >
-                  <div
-                    class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
-                  >
-                    <div class="modal-content border-2 border-danger">
-                      <div class="modal-header border-danger bg-light">
-                        <h5 class="modal-title" id="projectTwoModalLabel">
-                          Project Overview
-                        </h5>
-                        <button
-                          type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
-                      </div>
-                      <div class="modal-body px-4">
-                        <div class="d-sm-flex flex-column">
-                          <div class="row">
-                            <div class="col-sm-3 col-5 fw-bold">
-                              Project Name:
-                            </div>
-                            <div class="col text-start" id="projName">
-                              Project 2
-                            </div>
-                          </div>
-
-                          <div class="row">
-                            <div class="col-sm-3 col-5 fw-bold">
-                              Project Address:
-                            </div>
-                            <div class="col text-start" id="projAddress">
-                              Lot 1, Block 2, Lorem Street, Ipsum City
-                            </div>
-                          </div>
-
-                          <div class="row">
-                            <div class="col-sm-3 col-5 fw-bold">Foreman:</div>
-                            <div class="col text-start" id="projForeman">
-                              Jocelyn Phils
-                            </div>
-                          </div>
-
-                          <div class="row">
-                            <div class="col-sm-3 col-5 fw-bold">
-                              Start Date:
-                            </div>
-                            <div class="col text-start" id="projStart">
-                              Aug 11, 2021
-                            </div>
-                          </div>
-
-                          <div class="row">
-                            <div class="col-sm-3 col-5 fw-bold">End Date:</div>
-                            <div class="col text-start" id="projEnd">
-                              Jan 11, 2022
-                            </div>
-                          </div>
-                          <hr />
-                          <div class="">
-                            <!-- Manpower -->
-                            <nav>
-                              <div
-                                class="nav nav-tabs text-dark"
-                                id="nav-tab"
-                                role="tablist"
-                              >
-                                <button
-                                  class="nav-link active"
-                                  id="nav-manpower-tab"
-                                  data-bs-toggle="tab"
-                                  data-bs-target="#nav-manpower1"
-                                  type="button"
-                                  role="tab"
-                                  aria-controls="nav-manpower"
-                                  aria-selected="true"
-                                >
-                                  Manpower
-                                </button>
-                                <button
-                                  class="nav-link"
-                                  id="nav-tasks-tab"
-                                  data-bs-toggle="tab"
-                                  data-bs-target="#nav-tasks1"
-                                  type="button"
-                                  role="tab"
-                                  aria-controls="nav-tasks"
-                                  aria-selected="false"
-                                >
-                                  Tasks
-                                </button>
-                                <button
-                                  class="nav-link"
-                                  id="nav-contact-tab"
-                                  data-bs-toggle="tab"
-                                  data-bs-target="#nav-tools1"
-                                  type="button"
-                                  role="tab"
-                                  aria-controls="nav-tools"
-                                  aria-selected="false"
-                                >
-                                  Tools
-                                </button>
-                              </div>
-                            </nav>
-                            <div class="tab-content" id="nav-tabContent">
-                              <div
-                                class="tab-pane fade show active"
-                                id="nav-manpower1"
-                                role="tabpanel"
-                                aria-labelledby="nav-manpower-tab"
-                                tabindex="0"
-                              >
-                                <!-- EMPLOYEE SEARCH BAR -->
-                                <form action="#">
-                                  <div class="input-group my-2">
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      placeholder="Enter employee name"
-                                      aria-label="Employee"
-                                      aria-describedby="basic-addon2"
-                                    />
-                                    <div class="input-group-append">
-                                      <button
-                                        class="btn btn-outline-danger border rounded border-right"
-                                        type="button"
-                                      >
-                                        Search
-                                      </button>
-                                    </div>
-                                  </div>
-                                </form>
-                                <!-- END OF SEARCH BAR -->
-                                <!-- MANPOWER TABLE -->
-                                <div class="table-responsive">
-                                  <table
-                                    class="table text-sm-center"
-                                    id="workers1"
-                                  >
-                                    <tr>
-                                      <th>Name</th>
-                                      <th>Designation</th>
-                                      <th>Number</th>
-                                      <th></th>
-                                      <th></th>
-                                    </tr>
-                                    <tr>
-                                      <td data-label="Name">Joe Poe</td>
-                                      <td data-label="Designation">Skilled</td>
-                                      <td data-label="Number">09123321211</td>
-                                      <td>
-                                        <a
-                                          class="btn btn-outline-info w-100"
-                                          type="button"
-                                          style="font-size: 12px"
-                                        >
-                                          Profile
-                                        </a>
-                                      </td>
-                                      <td>
-                                        <button
-                                          class="btn btn-outline-danger w-100"
-                                          style="font-size: 12px"
-                                        >
-                                          Delete
-                                        </button>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td data-label="Name">Jocelyn Phils</td>
-                                      <td data-label="Designation">Foreman</td>
-                                      <td data-label="Number">09123321211</td>
-                                      <td>
-                                        <a
-                                          class="btn btn-outline-info w-100 px-0"
-                                          type="button"
-                                          style="font-size: 12px"
-                                        >
-                                          Profile
-                                        </a>
-                                      </td>
-                                      <td>
-                                        <button
-                                          class="btn btn-outline-danger w-100 px-0"
-                                          style="font-size: 12px"
-                                        >
-                                          Delete
-                                        </button>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td colspan="5">
-                                        <button
-                                          class="btn btn-outline-danger w-100"
-                                        >
-                                          Add People
-                                        </button>
-                                      </td>
-                                    </tr>
-                                  </table>
-                                </div>
-                                <!-- END OF TABLE -->
-                              </div>
-                              <div
-                                class="tab-pane fade"
-                                id="nav-tasks1"
-                                role="tabpanel"
-                                aria-labelledby="nav-tasks-tab"
-                                tabindex="0"
-                              >
-                                <!-- TASK SEARCH BAR -->
-                                <form action="#">
-                                  <div class="input-group my-2">
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      placeholder="Enter task to search"
-                                      aria-label="Task"
-                                      aria-describedby="basic-addon2"
-                                    />
-                                    <div class="input-group-append">
-                                      <button
-                                        class="btn btn-outline-danger border rounded border-right"
-                                        type="button"
-                                      >
-                                        Search
-                                      </button>
-                                    </div>
-                                  </div>
-                                </form>
-                                <!-- END OF SEARCH BAR -->
-                                <!-- TASKS TABLE -->
-                                <div class="table-responsive">
-                                  <table
-                                    class="table text-sm-center"
-                                    id="tasks"
-                                  >
-                                    <tr>
-                                      <th>Task Items</th>
-                                      <th>Target</th>
-                                      <th>Status</th>
-                                      <th></th>
-                                    </tr>
-                                    <tr>
-                                      <td data-label="Task Item">
-                                        Excavation of Column Footing A
-                                      </td>
-                                      <td data-label="Target">September</td>
-                                      <td data-label="Status">
-                                        <select
-                                          class="form-select form-select-sm"
-                                        >
-                                          <option>Ongoing</option>
-                                          <option>Incomplete</option>
-                                          <option>Complete</option>
-                                        </select>
-                                      </td>
-                                      <td>
-                                        <button
-                                          class="btn btn-outline-danger w-100 px-0"
-                                          style="font-size: 12px"
-                                        >
-                                          Delete
-                                        </button>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td data-label="Task Item">
-                                        Excavation of Footing Tie Beam A
-                                      </td>
-                                      <td data-label="Target">November</td>
-                                      <td data-label="Status">
-                                        <select
-                                          class="form-select form-select-sm"
-                                        >
-                                          <option>Ongoing</option>
-                                          <option>Incomplete</option>
-                                          <option>Complete</option>
-                                        </select>
-                                      </td>
-                                      <td>
-                                        <button
-                                          class="btn btn-outline-danger w-100 px-0"
-                                          style="font-size: 12px"
-                                        >
-                                          Delete
-                                        </button>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td data-label="Task Item">
-                                        Assembly of Column Rebars A
-                                      </td>
-                                      <td data-label="Target">December</td>
-                                      <td data-label="Status">
-                                        <select
-                                          class="form-select form-select-sm"
-                                        >
-                                          <option>Ongoing</option>
-                                          <option>Incomplete</option>
-                                          <option>Complete</option>
-                                        </select>
-                                      </td>
-                                      <td>
-                                        <button
-                                          class="btn btn-outline-danger w-100 px-0"
-                                          style="font-size: 12px"
-                                        >
-                                          Delete
-                                        </button>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td colspan="4">
-                                        <button
-                                          class="btn btn-outline-danger w-100"
-                                        >
-                                          Add New Task
-                                        </button>
-                                      </td>
-                                    </tr>
-                                  </table>
-                                </div>
-                                <!-- END OF TABLE -->
-                              </div>
-                              <div
-                                class="tab-pane fade"
-                                id="nav-tools1"
-                                role="tabpanel"
-                                aria-labelledby="nav-tools-tab"
-                                tabindex="0"
-                              >
-                                <form action="#">
-                                  <div class="input-group my-2">
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      placeholder="Enter tool to search"
-                                      aria-label="Tools"
-                                      aria-describedby="basic-addon2"
-                                    />
-                                    <div class="input-group-append">
-                                      <button
-                                        class="btn btn-outline-danger border rounded border-right"
-                                        type="button"
-                                      >
-                                        Search
-                                      </button>
-                                    </div>
-                                  </div>
-                                </form>
-                                <!-- END OF SEARCH BAR -->
-                                <!-- TOOLS TABLE -->
-                                <div class="table-responsive">
-                                  <table
-                                    class="table text-sm-center"
-                                    id="tools"
-                                  >
-                                    <tr>
-                                      <th>Item</th>
-                                      <th>Quantity</th>
-                                      <th>Status</th>
-                                      <th></th>
-                                    </tr>
-                                    <tr>
-                                      <td data-label="Item">Grinder</td>
-                                      <td data-label="Quantity">
-                                        <input
-                                          class="form-control form-control-sm"
-                                          type="number"
-                                          value="2"
-                                        />
-                                      </td>
-                                      <td data-label="Status">
-                                        <select class="form-select">
-                                          <option>Available</option>
-                                          <option>Unavailable</option>
-                                        </select>
-                                      </td>
-                                      <td>
-                                        <button
-                                          class="btn btn-outline-danger w-100 px-0"
-                                          style="font-size: 12px"
-                                        >
-                                          Delete
-                                        </button>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td data-label="Item">Grinder</td>
-                                      <td data-label="Quantity">
-                                        <input
-                                          class="form-control form-control-sm"
-                                          type="number"
-                                          value="2"
-                                        />
-                                      </td>
-                                      <td data-label="Status">
-                                        <select class="form-select">
-                                          <option>Available</option>
-                                          <option>Unavailable</option>
-                                        </select>
-                                      </td>
-                                      <td>
-                                        <button
-                                          class="btn btn-outline-danger w-100 px-0"
-                                          style="font-size: 12px"
-                                        >
-                                          Delete
-                                        </button>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td colspan="4">
-                                        <button
-                                          class="btn btn-outline-danger w-100"
-                                        >
-                                          Add New Tool
-                                        </button>
-                                      </td>
-                                    </tr>
-                                  </table>
-                                </div>
-                                <!-- END OF TABLE -->
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="modal-footer border-danger bg-light">
                         <button
                           type="button"
                           class="btn btn-secondary"
                           data-bs-dismiss="modal"
+                          id="viewCClose"
                         >
                           Close
                         </button>
-                        <button type="button" class="btn btn-danger text-white">
-                          Save changes
+                        <button
+                          type="button"
+                          class="btn btn-danger text-white"
+                          id="viewEditBtn"
+                        >
+                          Edit
                         </button>
                       </div>
-                    </div>
+                    </form>
                   </div>
                 </div>
-                <!-- END OF MODAL -->
-                <div
-                  class="card ms-sm-0 me-sm-3 mx-auto mt-sm-0 mt-3 border-0 border-danger bg-white align-items-center justify-content-center"
-                  id="addProjectBtn"
-                  style="width: 18rem"
+              </div>
+              <!-- END OF PROJECT 1 MODAL -->
+              <div
+                class="card ms-sm-0 me-sm-3 mx-auto mt-sm-0 mt-3 border-0 border-danger bg-white align-items-center justify-content-center"
+                id="addProjectBtn"
+                style="width: 18rem"
+                data-bs-toggle="modal"
+                data-bs-target="#addProjectModal"
+              >
+                <button
+                  class="btn btn-outline-danger border-2 create"
+                  style="width: 100%; height: 100%"
+                  title="Create Project"
                 >
-                  <button
-                    class="btn btn-outline-danger border-2 create"
-                    style="width: 100%; height: 100%"
-                    title="Create Project"
-                  >
-                    <span class="display-4"
-                      ><i class="bi bi-plus-circle-fill"></i
-                    ></span>
-                  </button>
+                  <span class="display-4"
+                    ><i class="bi bi-plus-circle-fill"></i
+                  ></span>
+                </button>
+              </div>
+            </div>
+            <!-- ADD PROJECT 2 MODAL -->
+            <div
+              class="modal fade"
+              id="addProjectModal"
+              data-bs-backdrop="static"
+              tabindex="-1"
+              aria-labelledby="addProjectModal"
+              aria-hidden="true"
+            >
+              <div
+                class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
+              >
+                <div class="modal-content border-2 border-danger">
+                  <div class="modal-header border-danger bg-light">
+                    <h5 class="modal-title" id="projectOneModalLabel">
+                      Project Overview
+                    </h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                      id="addCloseModal"
+                    ></button>
+                  </div>
+                  <form id="AddMproject">
+                    <div class="modal-body px-4">
+                      <div class="d-sm-flex flex-column">
+                        <div class="row">
+                          <div class="col-12 fw-bold">
+                            Project Name:<input
+                              class="form-control form-control-sm"
+                              type="text"
+                              id="projectName"
+                              required
+                            />
+                          </div>
+                          <div class="col-12 text-start" id="addProj">
+                            <!-- Add Project  -->
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-12 fw-bold">
+                            Project Address:<input
+                              class="form-control form-control-sm"
+                              type="text"
+                              id="projectAdd"
+                              required
+                            />
+                          </div>
+                          <div class="col text-start" id="projAddress">
+                            <!-- Joe Poe -->
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-12 fw-bold">
+                            Foreman:
+                            <select
+                              id="selectForeman"
+                              class="form-select form-select-sm"
+                            ></select>
+                          </div>
+                          <div class="col text-start" id="addProjForeman">
+                            <!-- Joe Poe -->
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-12 fw-bold">
+                            Start Date:<input
+                              class="form-control form-control-sm"
+                              type="date"
+                              id="projStartNew"
+                              required
+                            />
+                          </div>
+                          <div class="col text-start" id="projStart " required>
+                            <!-- Aug 11, 2021 -->
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-12 fw-bold">
+                            End Date:<input
+                              type="date"
+                              id="projectEnd"
+                              class="form-control form-control-sm"
+                            />
+                          </div>
+                          <div class="col text-start" id="projEnd">
+                            <!-- Aug 11, 2021 -->
+                          </div>
+                        </div>
+                        <hr />
+                        <div class="">
+                          <!-- Manpower -->
+                          <nav>
+                            <div
+                              class="nav nav-tabs text-dark"
+                              id="nav-tab"
+                              role="tablist"
+                            >
+                              <button
+                                class="nav-link active"
+                                id="nav-manpower-tab1"
+                                data-bs-toggle="tab"
+                                data-bs-target="#nav-manpower1"
+                                type="button"
+                                role="tab"
+                                aria-controls="nav-manpower"
+                                aria-selected="true"
+                              >
+                                Manpower
+                              </button>
+                              <button
+                                class="nav-link"
+                                id="nav-tasks-tab1"
+                                data-bs-toggle="tab"
+                                data-bs-target="#nav-tasks1"
+                                type="button"
+                                role="tab"
+                                aria-controls="nav-tasks"
+                                aria-selected="false"
+                              >
+                                Tasks
+                              </button>
+                              <button
+                                class="nav-link"
+                                id="nav-contact-tab1"
+                                data-bs-toggle="tab"
+                                data-bs-target="#nav-tools1"
+                                type="button"
+                                role="tab"
+                                aria-controls="nav-tools"
+                                aria-selected="false"
+                              >
+                                Tools
+                              </button>
+                            </div>
+                          </nav>
+                          <div class="tab-content" id="nav-tabContent1">
+                            <div
+                              class="tab-pane fade show active"
+                              id="nav-manpower1"
+                              role="tabpanel"
+                              aria-labelledby="nav-manpower-tab"
+                              tabindex="0"
+                            >
+                              <!-- EMPLOYEE SEARCH BAR -->
+                              <form action="#">
+                                <div class="input-group my-2">
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Enter employee name"
+                                    aria-label="Employee"
+                                    aria-describedby="basic-addon2"
+                                    id="searchEmp"
+                                  />
+                                </div>
+                              </form>
+                              <!-- END OF SEARCH BAR -->
+                              <!-- MANPOWER TABLE -->
+                              <div class="table-responsive">
+                                <table class="table text-sm-center">
+                                  <tr>
+                                    <th>Name</th>
+                                    <th>Designation</th>
+                                    <th>Number</th>
+                                    <th></th>
+                                    <th></th>
+                                  </tr>
+                                  <tbody id="workerList"></tbody>
+                                </table>
+                              </div>
+                              <div class="input-group w-75 mt-3">
+                                <select id="empWorkers" class="form-select">
+                                  >
+                                </select>
+                                <button
+                                  id="addWorkers"
+                                  type="button"
+                                  class="btn btn-outline-danger"
+                                >
+                                  Add Workers
+                                </button>
+                              </div>
+                              <!-- END OF TABLE -->
+                            </div>
+                            <div
+                              class="tab-pane fade"
+                              id="nav-tasks1"
+                              role="tabpanel"
+                              aria-labelledby="nav-tasks-tab"
+                              tabindex="0"
+                            >
+                              <!-- TASK SEARCH BAR -->
+                              <form action="#">
+                                <div class="input-group my-2">
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Enter task to search"
+                                    aria-label="Task"
+                                    aria-describedby="basic-addon2"
+                                    id="searchAddTask"
+                                  />
+                                </div>
+                              </form>
+                              <!-- END OF SEARCH BAR -->
+                              <!-- TASKS TABLE -->
+                              <div class="table-responsive">
+                                <table class="table text-sm-center">
+                                  <tr>
+                                    <th>Task Items</th>
+                                    <th>Target</th>
+                                    <th>Status</th>
+                                    <tbody id="addTask"></tbody>
+                                    <tfoot id="fTask"></tfoot>
+                                  </tr>
+                                </table>
+                              </div>
+                              <!-- END OF TABLE -->
+                            </div>
+                            <div
+                              class="tab-pane fade"
+                              id="nav-tools1"
+                              role="tabpanel"
+                              aria-labelledby="nav-tools-tab"
+                              tabindex="0"
+                            >
+                              <form action="#">
+                                <div class="input-group my-2">
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Enter tool to search"
+                                    aria-label="Tools"
+                                    aria-describedby="basic-addon2"
+                                    id="searchAddTools"
+                                  />
+                                </div>
+                              </form>
+                              <!-- END OF SEARCH BAR -->
+                              <!-- TOOLS TABLE -->
+                              <div class="table-responsive">
+                                <table class="table text-sm-center">
+                                  <tr>
+                                    <th>Item</th>
+                                    <th>Quantity</th>
+                                    <th>Status</th>
+                                  </tr>
+
+                                  <tbody id="addTools"></tbody>
+                                  <tfoot id="fTools"></tfoot>
+                                </table>
+                              </div>
+                              <!-- END OF TABLE -->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="modal-footer border-danger bg-light">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                        id="projectModalClose"
+                      >
+                        Close
+                      </button>
+                      <button
+                        type="submit"
+                        class="btn btn-danger text-white"
+                        id="addSavebtn"
+                      >
+                        SAVE
+                      </button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
+            <!-- END OF ADD PROJECT MODAL -->
           </main>
           <a
             href="#top"
@@ -920,11 +730,15 @@
           class="d-sm-flex flex-row bg-light py-4 mt-auto w-100 me-0 ms-0 px-2"
         >
           <div class="text-sm-start text-center">
-            <a href="#" class="text-danger mx-2">Home</a>
-            <a href="#" class="text-danger mx-2">About Us</a>
-            <a href="#" class="text-danger mx-2">Contact Us</a>
+            <a href="../../index.html" class="text-danger mx-2">Home</a>
+            <a href="../../index#aboutCyberpunks.html" class="text-danger mx-2"
+              >About Us</a
+            >
+            <a href="../../index.html#contactUs" class="text-danger mx-2"
+              >Contact Us</a
+            >
           </div>
-          <div class="small ms-sm-auto text-center">
+          <div class="small ms-sm-auto d-sm-block d-none text-center">
             &copy; Copyright 2022, Cyberpunk Builders. All Rights Reserved
           </div>
         </footer>
@@ -933,7 +747,7 @@
     <!--Container Main end-->
 
     <!-- <script src="../../js/init.js"></script> -->
-    <script src="../../js/main.js"></script>
+    <script type="module" src="../../js/foreman/main.js"></script>
     <script src="../../js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

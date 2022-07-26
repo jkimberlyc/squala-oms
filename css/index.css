@@ -6,7 +6,7 @@
   height: calc(100vh - 52px);
 }
 
-main {
+body {
   background-image: url("../img/vecteezyWhite.jpg") !important;
   height: fit-content;
   background-repeat: no-repeat;

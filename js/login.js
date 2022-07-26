@@ -31,7 +31,6 @@ sessionStorage.setItem("createAlert1", JSON.stringify(""));
 
 function validate()
 {
-    
     sessionStorage.setItem("user", JSON.stringify(""));
     sessionStorage.setItem("userId", JSON.stringify(""));
     var username=document.getElementById("UserName").value;

@@ -1,3 +1,23 @@
+import * as test from "../foreman/dashboard.js"; 
+
+window.addEventListener("load", function() {
+    authenticateUser();
+	checkTimes();
+	
+    window.setTimeout(() => {
+        document.querySelector(".loader").classList.add("d-none");
+        document.body.classList.replace("overflow-hidden", "overflow-auto");
+    }, 300)
+})
+
+test.projOnload()
+
+function authenticateUser(){
+    var user = sessionStorage.getItem("user");
+    if(user === null) window.location.href="../../html/login.html"
+    else if(user === "Manager") window.location.href="../../html/manager/dashboard.html"
+    else if(user === "Employee") window.location.href="../../html/employee/dashboard.html"
+}
 
 const projectList = JSON.parse(localStorage.getItem("projects"));
 const employeeList = JSON.parse(localStorage.getItem("employees"));
@@ -144,6 +164,10 @@ document.querySelector(".nav_logo-name").addEventListener("click", () => {
     window.location.href = "dashboard.html";
 })
 
+function addProject(){
+test.addProject()
+}
+
 const logout = document.getElementsByClassName("logout");
 
 for(let i = 0; i<logout.length; i++){
@@ -153,3 +177,117 @@ for(let i = 0; i<logout.length; i++){
 		window.location.href = "../login.html";
 	})
 }
+
+var userId = JSON.parse(sessionStorage.getItem("userId"));
+document.getElementById("timeIn").addEventListener("click", setTimeIn);
+document.getElementById("timeOut").addEventListener("click", setTimeOut);
+
+async function setTimeIn(){
+	
+    var date = new Date();
+	console.log(date)
+    var employee = employeeList.filter(e => e.id === userId);
+    var project = projectList.filter(p => p.id === employee[0].projectId);
+    var attendance = attendList.filter(a => (a.employeeId === userId) && (a.date === date.yyyymmdd()));
+    var index = attendList.findIndex(a => (a.employeeId === userId) && (a.date === date.yyyymmdd()));
+    var newList;
+   
+
+    var timeStamp = await getTime();
+	
+    console.log(timeStamp.datetime);
+	alert("oi");
+    if(attendance.length === 0){
+        var newAttendance = {
+            id: (attendList.length+1).toString(),
+            employeeId: userId,
+            projectId: project[0].id,
+            designation: employee[0].designation,
+            date: date.yyyymmdd(),
+            timeIn: timeStamp.datetime.substring(11,16),
+            timeOut: "",
+            status: "Present"
+        }
+
+        newList = attendList;
+        newList.push(newAttendance);
+    }else{
+        attendance[0] = {
+            ...attendance[0],
+            timeIn: timeStamp.datetime.substring(11,16)
+        }
+        newList = attendList;
+        newList[index] = attendance[0];
+    }
+
+    localStorage.setItem("attendance", JSON.stringify(newList));
+
+    var timeIn = document.getElementById("timeIn");
+    timeIn.innerHTML = timeStamp.datetime.substring(11,16);
+    timeIn.disabled = true;
+
+    checkTimes();
+}
+
+async function setTimeOut(){
+    var date = new Date();
+    var attendance = attendList.filter(a => (a.employeeId === userId) 
+    && (a.date === date.yyyymmdd()));
+    var index = attendList.findIndex(a => (a.employeeId === userId) 
+    && (a.date === date.yyyymmdd()));
+    var newList;
+    console.log(attendance[0]);
+    
+    var timeStamp = await getTime();
+    console.log(timeStamp.datetime);
+
+    attendance[0] = {
+        ...attendance[0],
+        timeOut: timeStamp.datetime.substring(11,16)
+    }
+    newList = attendList;
+    newList[index] = attendance[0];
+
+
+    localStorage.setItem("attendance", JSON.stringify(newList));
+
+    var timeOut = document.getElementById("timeOut");
+    timeOut.innerHTML = timeStamp.datetime.substring(11,16);
+    timeOut.disabled = true;
+
+    checkTimes();
+}
+
+async function getTime(){
+    const response = await fetch("https://worldtimeapi.org/api/ip");
+    return await response.json();
+}
+
+function checkTimes(){
+    var date = new Date();
+    var attendance = attendList.filter(a => (a.employeeId === userId) && (a.date === date.yyyymmdd()));
+    var timeIn = document.getElementById("timeIn");
+    var timeOut = document.getElementById("timeOut");
+
+    if(attendance.length != 0){
+        if(attendance[0].timeIn != ""){
+            timeIn.innerHTML = attendance[0].timeIn;
+            timeIn.disabled = true;
+        }else timeIn.disabled = false
+    
+        if(attendance[0].timeOut != ""){
+            timeOut.innerHTML = attendance[0].timeOut;
+            timeOut.disabled = true;
+        } else timeOut.disabled = false;
+    }
+}
+
+Date.prototype.yyyymmdd = function() {
+    var mm = this.getMonth() + 1; // getMonth() is zero-based
+    var dd = this.getDate();
+  
+    return [this.getFullYear(),
+            (mm>9 ? '' : '0') + mm,
+            (dd>9 ? '' : '0') + dd
+           ].join('-');
+};

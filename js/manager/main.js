@@ -1,6 +1,21 @@
 import * as test from "../manager/dashboard.js"; 
 
+window.addEventListener("load", function() {
+    authenticateUser();
+	
+    window.setTimeout(() => {
+        document.querySelector(".loader").classList.add("d-none");
+        document.body.classList.replace("overflow-hidden", "overflow-auto");
+    }, 300)
+})
 test.projOnload()
+function authenticateUser(){
+    var user = sessionStorage.getItem("user");
+
+    if(user === null) window.location.href="../../html/login.html"
+    else if(user === "Foreman") window.location.href="../../html/foreman/dashboard.html"
+    else if(user === "Employee") window.location.href="../../html/employee/dashboard.html"
+}
 
 const projectList = JSON.parse(localStorage.getItem("projects"));
 const employeeList = JSON.parse(localStorage.getItem("employees"));
