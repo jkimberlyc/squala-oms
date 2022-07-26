@@ -28,7 +28,7 @@
     <title>Landing Page</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-black sticky-top">
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-black sticky-top">
       <div class="container-fluid">
         <button
           class="navbar-toggler"
@@ -48,7 +48,7 @@
               BUILDERS</span
             ></a
           >
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav  ms-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">Home</a>
             </li>
@@ -85,8 +85,8 @@
     <main>
       <div class="background align-items-center p-0 bg-black">
         <div class="container col-xxl-8 px-4 py-5">
-          <div class="row flex-lg-row-reverse align-items-center g-5 py-5 mt-5">
-            <div class="col-10 col-sm-8 col-lg-6">
+          <div class="row flex-lg-row-reverse align-items-center justify-content-center g-5 py-5 mt-5">
+            <div class="col-10 col-sm-8 col-lg-6 text-center d-sm-block d-none">
               <img
                 src="img/logoThreeBIG.png"
                 class="d-block mx-lg-auto img-fluid"
@@ -128,14 +128,14 @@
       </div>
       <!-- ABOUT THE COMPANY -->
       <div id="aboutCyberpunks" class="invisible h2">ABOUT THE COMPANY</div>
-      <!-- <div
+      <div
         data-bs-spy="scroll"
         data-bs-target="#navbar"
         data-bs-offset="0"
         class="scrollspy-example"
         tabindex="0"
-      > -->
-        <section class="py-5 text-center container" style="height: 100vh">
+      >
+        <section class="py-5 text-center container px-3" style="height: 100vh">
           <h1 class="display-1 fw-bold">ABOUT</h1>
           <img src="./img/cyberpunk1.png" alt="cyberpunk" class="img-fluid" />
           <hr class="text-danger my-3" />
@@ -173,7 +173,7 @@
           </p>
         </section>
         
-        <div id="aboutDevelopers" class="invisible h2">
+        <div id="aboutDevelopers" class="invisible h2 py-sm-0 py-5 ">
           ABOUT THE DEVELOPERS
         </div>
         <!--ABOUT THE DEVELOPERS-->
@@ -209,7 +209,7 @@
                       class="d-flex justify-content-between align-items-center"
                     >
                       <div class="card-body">
-                        <a href="https://jkimberlyc.github.io/portfolio/" class="card-link">Personal Profile</a>
+                        <a href="https://jkimberlyc.github.io/portfolio/" class="card-link text-decoration-none text-danger">Personal Profile</a>
                       </div>
                     </div>
                   </div>
@@ -235,7 +235,7 @@
                     >
                       <div class="card-body">
                         <a href="https://jiesparago.github.io/Portfolio/
-                        " class="card-link">Personal Profile</a>
+                        " class="card-link text-decoration-none text-danger">Personal Profile</a>
                       </div>
                     </div>
                   </div>
@@ -262,7 +262,7 @@
                       <div class="card-body">
                         <a
                           href="https://kudelion.github.io/BFDLPortfolio/"
-                          class="card-link"
+                          class="card-link text-decoration-none text-danger"
                           >Personal Profile</a
                         >
                       </div>
@@ -276,11 +276,11 @@
           <!--CONTACT US -->
         <div id="contactUs" class="invisible h2">CONTACT US</div>
         <div id="" class="container-fluid bg-black m-0 w-100">
-          <h2 class="h2 text-white text-center py-4">CONTACT US</h2>
+          <h1 class=" text-danger text-center py-4 fw-bold">CONTACT US</h1>
           <div class="row m-0 w-100">
             <div class="col-sm-5 text-sm-start text-center ps-sm-5 ms-sm-5">
               <p class="fs-4 text-white py-2 pe-0">
-                Contact us. We love to here from you.
+                Contact us. <br class="d-sm-none d-block">We love to here from you.
               </p>
               <p class="fs-8 text-white-50">
                 <span class="material-icons">place</span>
@@ -346,12 +346,12 @@
           </div>
         </div>
         <footer class="bg-black text-muted d-sm-block d-none">
-          <p class="text-white py-1"> &copy; Copyright 2022, Cyberpunk Builders. All Rights Reserved</p>
+          <p class="text-white py-3"> &copy; Copyright 2022, Cyberpunk Builders. All Rights Reserved</p>
         </footer>
         </section>
         
         
-      <!-- </div> -->
+      </div>
     </main>
     
   </body>
