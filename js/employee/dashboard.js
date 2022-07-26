@@ -11,7 +11,7 @@ window.addEventListener("load", function() {
 function authenticateUser(){
     var user = sessionStorage.getItem("user");
 
-    if(user === "") window.location.href="../../html/login.html"
+    if(user === null) window.location.href="../../html/login.html"
     else if(user === "Foreman") window.location.href="../../html/foreman/dashboard.html"
     else if(user === "Manager") window.location.href="../../html/manager/dashboard.html"
 }

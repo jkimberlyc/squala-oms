@@ -56,7 +56,7 @@
             >Joe</span
           >
           <div class="header_img d-inline-block align-middle">
-            <img class="img-fluid" src="../../img/user-employee.png" alt="" />
+            <img class="img-fluid" src="../../img/user-manager.png" alt="" />
           </div>
         </a>
 
@@ -86,6 +86,14 @@
             <a href="dashboard.html" class="nav_link">
               <i class="bx bx-grid-alt nav_icon"></i>
               <span class="nav_name">Dashboard</span>
+            </a>
+            <a href="#" class="nav_link">
+              <i class="bx bx-user nav_icon"></i>
+              <span class="nav_name">Employees</span>
+            </a>
+            <a href="attendance.html" class="nav_link">
+              <i class="bx bx-calendar-check nav_icon"></i>
+              <span class="nav_name">Attendance</span>
             </a>
             <a href="profile.html" class="nav_link active">
               <i class="bx bxs-user-rectangle nav_icon"></i>
@@ -122,47 +130,11 @@
 
                   <div class="row mb-3">
                     <div
-                      class="col-sm-2 col-6 text-sm-start text-end border-end text-danger fw-bold"
-                    >
-                      Address:
-                    </div>
-                    <div class="col ps-3" id="displayAddress"></div>
-                  </div>
-
-                  <div class="row mb-3">
-                    <div
-                      class="col-sm-2 col-6 text-sm-start text-end border-end text-danger fw-bold"
-                    >
-                      Contact Number:
-                    </div>
-                    <div class="col ps-3" id="displayContact"></div>
-                  </div>
-
-                  <div class="row mb-3">
-                    <div
-                      class="col-sm-2 col-6 text-sm-start text-end border-end text-danger fw-bold"
-                    >
-                      Current Project:
-                    </div>
-                    <div class="col ps-3" id="displayProject"></div>
-                  </div>
-
-                  <div class="row mb-3">
-                    <div
-                      class="col-sm-2 col-6 text-sm-start text-end border-end text-danger fw-bold"
+                      class="col-sm-2 col-6 text-sm-start text-end border-end text-danger fw-bold text-danger"
                     >
                       Designation:
                     </div>
-                    <div class="col ps-3" id="displayDesignation"></div>
-                  </div>
-
-                  <div class="row mb-3">
-                    <div
-                      class="col-sm-2 col-6 text-sm-start text-end border-end text-danger fw-bold"
-                    >
-                      Skills:
-                    </div>
-                    <div class="col ps-3" id="displaySkills"></div>
+                    <div class="col ps-3" id="displayDesignation">Manager</div>
                   </div>
                 </div>
                 <hr />
@@ -366,7 +338,7 @@
 
     <!--Container Main end-->
     <script src="../../js/main.js"></script>
-    <script src="../../js/employee/profile.js"></script>
+    <script src="../../js/manager/profile.js"></script>
     <script src="../../js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

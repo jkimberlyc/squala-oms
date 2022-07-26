@@ -11,16 +11,11 @@ function authenticateUser(){
 
    if(user === null) window.location.href="../../html/login.html"
    else if(user === "Foreman") window.location.href="../../html/foreman/dashboard.html"
-   else if(user === "Manager") window.location.href="../../html/manager/dashboard.html"
+   else if(user === "Employee") window.location.href="../../html/employee/dashboard.html"
 }
 
 let id = JSON.parse(sessionStorage.getItem("userId"));
 //console.log(id); //to check the result of id...
-
-let thisUser = employeeList.filter((obj) => obj.id == id); //get the object that matches the project id; filter() returns an array
-//console.log(thisUser[0].firstName); //to check if the filter is functioning
-
-let thisProject = projectList.filter(p => p.id === thisUser[0].projectId);
 
 let skills = () => {
    let s = thisUser[0].skills
@@ -32,7 +27,7 @@ let skills = () => {
    return s;
 }
 
-let thisAccount = accountList.filter(u => u.employeeId === id)
+let thisAccount = accountList.filter(u => u.employeeId === "admin")
 
 let password = () => {
    let p = thisAccount[0].password;
@@ -54,12 +49,7 @@ let hidePassword = () => {
    document.getElementById("displayPassword").innerHTML=password() + "<button class='btn btn-sm btn-outline-danger ms-3' onclick='showPassword()'>Show</button>";
 }
 
-document.getElementById("displayName").innerHTML=thisUser[0].firstName+ ", " + thisUser[0].lastName; //displays the NAME at employee.html
-document.getElementById("displayContact").innerHTML=thisUser[0].contact; //displays the CONTACT at employee.html
-document.getElementById("displayProject").innerHTML = thisProject[0].projectName;
-document.getElementById("displayAddress").innerHTML=thisUser[0].address;
-document.getElementById("displayDesignation").innerHTML=thisUser[0].designation;
-document.getElementById("displaySkills").innerHTML=skills();
+document.getElementById("displayName").innerHTML="Manager Kun"; //displays the NAME at employee.html
 document.getElementById("displayUsername").innerHTML=thisAccount[0].username
 document.getElementById("displayPassword").innerHTML=password() + "<button class='btn btn-sm btn-outline-danger ms-3' onclick='showPassword()'>Show</button>";
 

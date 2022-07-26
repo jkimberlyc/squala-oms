@@ -5,6 +5,13 @@ window.addEventListener('resize', () => {
 
 window.addEventListener("load", function() {
     checkUser();
+    window.setTimeout(() => {
+        document.querySelector(".loader").classList.add("d-none");
+        document.body.classList.replace("overflow-hidden", "overflow-auto");
+        this.document.getElementById("mainContent").classList.remove("d-none");
+    }, 300)
+    
+
 })
 
 function checkUser(){

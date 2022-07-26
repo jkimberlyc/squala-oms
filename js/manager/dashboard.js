@@ -1,20 +1,3 @@
-window.addEventListener("load", function() {
-    authenticateUser();
-    window.setTimeout(() => {
-        document.querySelector(".loader").classList.add("d-none");
-        document.body.classList.replace("overflow-hidden", "overflow-auto");
-    }, 300)
-})
-
-function authenticateUser(){
-    var user = sessionStorage.getItem("user");
-
-    if(user === "") window.location.href="../../html/login.html"
-    else if(user === "Foreman") window.location.href="../../html/foreman/dashboard.html"
-    else if(user === "Employee") window.location.href="../../html/employee/dashboard.html"
-    
-}
-
 const projectList = JSON.parse(localStorage.getItem("projects"));
 const employeeList = JSON.parse(localStorage.getItem("employees"));
 const taskList = JSON.parse(localStorage.getItem("tasks"));
@@ -31,6 +14,11 @@ var getTaskstatus = []
 var EditProject = []
 var editProjData= []
 
+
+
+
+
+
  //project ID
 const getProjectItem = localStorage.getItem("projects");
 const addProjData =getProjectItem != null ? JSON.parse(getProjectItem) : []; //Multi Dimentional obj
@@ -42,13 +30,15 @@ export function projOnload(){
     const projectList = JSON.parse(localStorage.getItem("projects"));
     
     var card = document.getElementById("projCard");
-    card.innerHTML="";
+    card.innerHTML='<div class="card ms-sm-0 me-sm-3 mx-auto mt-sm-0 mt-3 border-0 border-danger bg-white align-items-center justify-content-center" id="addProjectBtn" data-bs-toggle="modal" data-bs-target="#addProjectModal" style="width:18rem"><button class="btn btn-outline-danger border-2 create" style="width:100%;height:100%" title="Create Project"><span class="display-4"><i class="bi bi-plus-circle-fill"></i></span></button></div>';
+
     // let anchor = document.createElement("a");
+
     
     if (projectList != null){
         for(let i =0 ; i < projectList.length;i++){
             
-                var str = '<div class="card ms-sm-0 me-sm-3 mx-auto mt-sm-0 mt-3 border-2 border-danger bg-white shadow" style="width: 18rem"><img src="../../img/project-thumb.jpg" class="card-img-top" alt="..." />'
+                var str = '<div class="card ms-sm-0 me-sm-3 mx-auto mt-sm-0 mt-3 border-2 border-danger bg-white shadow flex-grow-1" style="width: 18rem"><img src="../../img/project-thumb.jpg" class="card-img-top" alt="..." />'
                 str += '<div class="card-body">'
                 str +='<h5 class="card-title">' +projectList[i].projectName+ '<span class="badge text-bg-success ms-1">Ongoing</span></h5>';
                 str +='<p class="card-text small"><b>Location:</b> '+projectList[i].projectAddress+'<br /><b>Start:</b> '+projectList[i].projectStart+'<br /><b>End: </b>'+projectList[i].projectEnd+'</p>';
@@ -87,7 +77,7 @@ export function projOnload(){
             editPeopleButton()
             editTaskButton()
             editToolsButton()
-            editManPower()
+            editManPower(forSavId)
             
             
         })   
@@ -155,7 +145,6 @@ export function projOnload(){
             //to display foreman, parse employee -> filter with foreman ID -> display name 
             
             let foremanID = thisProject[0].projectForeman;
-            console.log(thisProject[0]);
             let thisForeman = employeeList.filter((obj) => obj.id == foremanID);
             document.getElementById("viewProjName").innerHTML = thisProject[0].projectName;
             document.getElementById("viewProjAddress").innerHTML = thisProject[0].projectAddress;
@@ -247,7 +236,7 @@ export function projOnload(){
                 }
                
             //View Task
-            let taskArray = thisProject[0].tasks;
+            let taskArray = thisProject[0].task;
             
             let taskTable = document.getElementById("editTasks");
             taskTable.innerHTML = "<th>Task Item</th><th>Target</th><th>Status</th><th></th>";
@@ -407,20 +396,32 @@ export function projOnload(){
         const projectList = JSON.parse(localStorage.getItem("projects"));
         let thisProject = projectList.filter((obj) => obj.id == projectID);
     
+        
 
-        let SelOptions = document.getElementById("editSelWorkers");
-        let SelWorkers = thisProject[0].workers
-      
-        for(let i=0; i<SelOptions.length; i++){
-            for (let j = 0;j< SelWorkers.length; j++){
-               
-            if (SelOptions.options[i].value == SelWorkers[j].old_id){
-                // console.log(SelOptions.remove(i))
-                SelOptions.remove(i)
+        let SelOptions = document.getElementById("editSelWorkers"); //employee ID
+        let workerTable = document.getElementById("editWorkers");
+        let tableTr = workerTable.querySelectorAll("tr"); // worker ID
             
-            }
+
+        let project = projectList.filter(p => p.id === forEditId);
+        let workers = project[0].workers;
+
+        if(SelOptions.length != 0){
+            for(let i=0; i<SelOptions.length; i++){
+                for (let j = 1;j< tableTr.length; j++){
+                let thisWorker = workers.filter(w => w.id === tableTr[j].id.charAt(12));
+                
+                    if(thisWorker.length != 0){
+                        console.log(thisWorker[0].id + "?" + tableTr[j].id.charAt(12))
+                        if(thisWorker[0].id === tableTr[j].id.charAt(12)){
+                            SelOptions.remove(i)
+                        }
+
+                    }
+                }
             }
         }
+
 
         //Project Name
         document.getElementById("viewProjName").innerHTML ="<input type='text' id='editProjName'/>"
@@ -527,7 +528,7 @@ export function projOnload(){
                         addTempWorker.splice(i,1)
                     }
                 }
-                editManPower()
+                editManPower(forSavId)
 
 
             }
@@ -546,7 +547,7 @@ export function projOnload(){
         }
         //View Task
         
-        let taskArray = thisProject[0].tasks;
+        let taskArray = thisProject[0].task;
         let taskTable = document.getElementById("editTasks");
         taskTable.innerHTML = "<th>Task Item</th><th>Target</th><th>Status</th><th></th>";
         
@@ -865,7 +866,7 @@ export function projOnload(){
             
             editProjData[forEditId-1] = EditProject //Edit index in Local Storage
             localStorage.setItem("projects", JSON.stringify(editProjData));
-            document.getElementById("Editfrom").submit();
+            document.getElementById("Editform").submit();
         }
     }
 
@@ -957,7 +958,9 @@ export function manPower(){
     }
 }
 
-export function editManPower(){
+var projectId;
+export function editManPower(id){
+    projectId = id;
     var workersList = JSON.parse(localStorage.getItem("employees"));
     var temp = document.getElementById("editSelWorkers")
     temp.innerHTML=""
@@ -976,8 +979,31 @@ export function editManPower(){
 
             }
         }
-        
-        
+    }
+
+    let SelOptions = document.getElementById("editSelWorkers"); //employee ID
+    let workerTable = document.getElementById("editWorkers");
+    let tableTr = workerTable.querySelectorAll("tr"); // worker ID
+
+    console.log(projectId)
+    let project = projectList.filter(p => p.id == projectId);
+    console.log(project[0])
+    let workers = project[0].workers;
+
+    if(SelOptions.length != 0){
+        for(let i=0; i<SelOptions.length; i++){
+            for (let j = 1;j< tableTr.length; j++){
+            let thisWorker = workers.filter(w => w.id === tableTr[j].id.charAt(12));
+            
+                if(thisWorker.length != 0){
+                    // console.log(thisWorker[0].id + "?" + tableTr[j].id.charAt(12))
+                    if(thisWorker[0].id === tableTr[j].id.charAt(12)){
+                        SelOptions.remove(i)
+                    }
+
+                }
+            }
+        }
     }
 }
     
@@ -1619,13 +1645,16 @@ function addModTool() {
 }
 
 function editTableWorkers(){
-    
      
     let teamTable = document.getElementById("editWorkers");
     let teamArray = document.getElementById("editSelWorkers")
+    console.log(teamArray.value);
     const workerList = JSON.parse(localStorage.getItem("employees"));
-    let tempWork = tempWorkerId.length + 1;
     let thisWorker = workerList.filter((obj) => obj.id == teamArray.value);
+    let thisProject = projectList.filter(e => e.id === thisWorker[0].projectId);
+    let workersArray = thisProject[0].workers;
+    let workerId = workersArray.filter(w => w.old_id === thisWorker[0].id);
+    let tempWork = workerId[0].id;
     let tr = document.createElement("tr");
     tr.setAttribute("id", "idempWorker_" + tempWork);
     let name = document.createElement("td");
@@ -1679,7 +1708,7 @@ function editTableWorkers(){
                     addTempWorker.splice(i,1)
                 }
             }
-            editManPower()
+            editManPower(forSavId)
 
 
         }
@@ -1693,7 +1722,7 @@ function editTableWorkers(){
 
         
 
-        editManPower()
+        editManPower(forSavId)
 
        
 
@@ -2051,6 +2080,7 @@ function Cancel(id){
     document.getElementById("fmodal").innerHTML="<button type='button' class='btn btn-secondary' data-bs-dismiss='modal' id='viewCClose'>Close</button><button type='button' class='btn btn-danger text-white' id='viewEditBtn'>Edit</button>"
 
     document.getElementById('viewEditBtn').addEventListener("click", function (event) {
+        // document.getElementById("Editform").reset();
         editProject()}) //Edit button
     let projectID = forEditId
     const projectList = JSON.parse(localStorage.getItem("projects"));
@@ -2099,7 +2129,7 @@ function Cancel(id){
     
     }
     //View Task
-    let taskArray = thisProject[0].tasks;
+    let taskArray = thisProject[0].task;
             
     let taskTable = document.getElementById("editTasks");
     taskTable.innerHTML = "<th>Task Item</th><th>Target</th><th>Status</th><th></th>";
@@ -2180,3 +2210,29 @@ function Cancel(id){
     
 
 }
+
+document.getElementById("editSelWorkers").addEventListener("change", (e) => {
+    console.log(e.target)
+    let SelOptions = document.getElementById("editSelWorkers"); //employee ID
+    let workerTable = document.getElementById("editWorkers");
+    let tableTr = workerTable.querySelectorAll("tr"); // worker ID
+
+    let project = projectList.filter(p => p.id === forEditId);
+    let workers = project[0].workers;
+
+    if(SelOptions.length != 0){
+        for(let i=0; i<SelOptions.length; i++){
+            for (let j = 1;j< tableTr.length; j++){
+            let thisWorker = workers.filter(w => w.id === tableTr[j].id.charAt(12));
+            
+                if(thisWorker.length != 0){
+                    // console.log(thisWorker[0].id + "?" + tableTr[j].id.charAt(12))
+                    if(thisWorker[0].id === tableTr[j].id.charAt(12)){
+                        SelOptions.remove(i)
+                    }
+
+                }
+            }
+        }
+    }
+})

@@ -11,7 +11,7 @@ var deleteEmployee = false;
 function authenticateUser(){
     var user = sessionStorage.getItem("user");
 
-    if(user === null) window.location.href="../../html/login.html"
+    if(user === "") window.location.href="../../html/login.html"
     else if(user === "Foreman") window.location.href="../../html/foreman/dashboard.html"
     else if(user === "Employee") window.location.href="../../html/employee/dashboard.html"
 }
@@ -116,7 +116,7 @@ for(let i=0; i<editBtns.length; i++){
     editBtns[i].addEventListener("click", () => {
         //reset alerts
         clearAlertVal();
-        deleteEmployee=false; 
+        deleteEmployee=false;
 
         var modalTitle = document.querySelector(".modal-title");
         modalTitle.innerHTML = "<i class='bx bxs-edit align-middle fs-3'></i><span class='align-middle'> Edit Profile</span>"
@@ -231,7 +231,6 @@ submitBtn.addEventListener("click", (e) => {
     var lastName = document.getElementById("inputLastName")
     var contact = document.getElementById("inputContact")
     var address = document.getElementById("inputAddress")
-    var designation = document.getElementById("inputDesignation")
 
     if(employeeIDModal == "") createEmployee();
     else {
@@ -267,7 +266,6 @@ submitBtn.addEventListener("click", (e) => {
                 lastName: lastName.value,
                 contact: contact.value,
                 address: address.value,
-                designation: designation.value,
                 skills: skillsArray
             }
             
@@ -417,7 +415,7 @@ function addWorker(projectID, employeeID){
 
     if(findWorker.length == 0){
         var worker = {
-            id: latestID.toString(),
+            id: latestID,
             Name: employee[0].firstName + " " + employee[0].lastName,
             designation: employee[0].designation,
             number: employee[0].contact,

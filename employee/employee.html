@@ -23,7 +23,7 @@
       src="https://kit.fontawesome.com/72268adad8.js"
       crossorigin="anonymous"
     ></script>
-    <title>Attendance</title>
+    <title>Employees</title>
   </head>
   <body id="body-pd" class="overflow-hidden">
     <div
@@ -38,7 +38,6 @@
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
-
     <header class="header" id="header">
       <div class="header_toggle">
         <i class="bx bx-menu" id="header-toggle"></i>
@@ -65,7 +64,7 @@
           class="dropdown-menu dropdown-menu-dark text-small shadow"
           aria-labelledby="dropdownUser"
         >
-          <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+          <li><a class="dropdown-item" href="#">Profile</a></li>
           <!-- <li>
             <hr class="dropdown-divider" />
           </li> -->
@@ -79,26 +78,25 @@
       <nav class="nav">
         <div>
           <a href="#" class="nav_logo">
+            <!-- <span id="logo-icon"
+              ><i class="fa-solid fa-s nav_logo-icon "></i
+            ></span> -->
             <span class="nav_logo-name"
-              ><img src="../../img/squala-red.png" width="190px" />
-            </span>
+              ><img src="../../img/squala-red.png" width="190px"
+            /></span>
           </a>
           <div class="nav_list">
             <a href="dashboard.html" class="nav_link">
               <i class="bx bx-grid-alt nav_icon"></i>
               <span class="nav_name">Dashboard</span>
             </a>
-            <a href="employee.html" class="nav_link">
+            <a href="#" class="nav_link active">
               <i class="bx bx-user nav_icon"></i>
               <span class="nav_name">Employees</span>
             </a>
-            <a href="#" class="nav_link active">
+            <a href="attendance.html" class="nav_link">
               <i class="bx bx-calendar-check nav_icon"></i>
               <span class="nav_name">Attendance</span>
-            </a>
-            <a href="profile.html" class="nav_link">
-              <i class="bx bxs-user-rectangle nav_icon"></i>
-              <span class="nav_name">Profile</span>
             </a>
           </div>
         </div>
@@ -114,15 +112,15 @@
         <div class="col d-flex flex-column h-sm-100">
           <main class="row overflow-auto">
             <div class="col p-4">
-              <h3 class="invisible mb-4" id="top">Attendance Page</h3>
+              <h3 class="invisible mb-4" id="top">Employee</h3>
               <p class="lead fw-bolder d-inline-block">
-                <span class="align-middle">Attendance Record</span>
+                <span class="align-middle">Employee List</span>
               </p>
               <div class="d-inline-block ms-2">
                 <button
-                  class="btn btn-danger btn-sm text-white new-attendance"
+                  class="btn btn-danger btn-sm text-white new-employee"
                   data-bs-toggle="modal"
-                  data-bs-target="#attendanceModal"
+                  data-bs-target="#employeeModal"
                 >
                   <i class="bx bx-plus align-middle fs-6"></i
                   ><span class="align-middle">New</span>
@@ -137,29 +135,23 @@
                     type="text"
                     class="form-control"
                     placeholder="Search"
-                    aria-label="Attendance"
+                    aria-label="Employee"
                     aria-describedby="basic-addon2"
-                    id="searchAttendance"
-                    onkeyup="searchRecords()"
+                    id="searchEmployeeList"
+                    onkeyup="searchTable('searchEmployeeList', 'employees')"
                   />
                   <select
                     class="form-select"
                     id="filter"
-                    onchange="searchRecords()"
+                    onchange="searchTable('filter', 'employees')"
                   >
-                    <option selected onclick="location.reload()">
+                    <option selected onclick="history.go(0)">
                       Filter by project
                     </option>
                   </select>
-                </div>
-                <div>
-                  <input
-                    type="date"
-                    class="text-center my-3"
-                    placeholder="Enter date"
-                    id="datePicker"
-                    onchange="searchRecords()"
-                  />
+                  <!-- <button class="btn btn-outline-danger" type="button">
+                    Search
+                  </button> -->
                 </div>
               </form>
               <div
@@ -168,7 +160,7 @@
               >
                 <i class="bx bx-check-circle align-middle fs-5"></i>
                 <span class="align-middle"
-                  >Sucessfully created new attendance record.</span
+                  >Sucessfully created new employee.</span
                 >
                 <button
                   type="button"
@@ -183,9 +175,7 @@
                 role="alert"
               >
                 <i class="bx bx-user-check align-middle fs-5"></i>
-                <span class="align-middle"
-                  >Successfully edited attendance record.</span
-                >
+                <span class="align-middle">Successfully edited employee.</span>
                 <button
                   type="button"
                   class="btn-close"
@@ -195,29 +185,31 @@
                 ></button>
               </div>
               <div class="table-responsive mt-4">
-                <table class="table table-hover text-sm-center align-middle">
-                  <tbody id="attendance">
+                <table
+                  class="table table-hover text-sm-center align-middle"
+                  id="employees"
+                >
+                  <tbody id="displayEmployee">
                     <tr class="text-danger">
-                      <th>Date</th>
                       <th>Name</th>
+                      <th>Address</th>
                       <th>Contact No.</th>
                       <th>Project</th>
                       <th>Designation</th>
-                      <th>Time In</th>
-                      <th>Time Out</th>
-                      <th>Status</th>
+                      <th>Skills</th>
                       <th></th>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </div>
+
             <!-- MODAL -->
             <div
               class="modal fade"
-              id="attendanceModal"
+              id="employeeModal"
               tabindex="-1"
-              aria-labelledby="attendanceModalLabel"
+              aria-labelledby="employeeModalLabel"
               aria-hidden="true"
             >
               <div
@@ -225,9 +217,9 @@
               >
                 <div class="modal-content border-2 border-danger">
                   <div class="modal-header border-danger bg-light">
-                    <h5 class="modal-title" id="attendanceModalLabel">
+                    <h5 class="modal-title" id="employeeModalLabel">
                       <i class="bx bxs-edit align-middle"></i>
-                      <span class="align-middle">Edit Record</span>
+                      <span class="align-middle">Edit Profile</span>
                     </h5>
                     <button
                       type="button"
@@ -238,121 +230,130 @@
                   </div>
                   <form id="editForm">
                     <div class="modal-body px-4 row g-3">
-                      <div class="input-group my-2 pt-1 d-none" id="searchForm">
-                        <span class="input-group-text align-middle"
-                          ><i class="bx bx-search align-middle"></i
-                        ></span>
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="First Name or Last Name"
-                          aria-label="Employee"
-                          aria-describedby="basic-addon2"
-                          id="searchEmployee"
-                          list="searchResult"
-                          autocomplete="off"
-                        />
-                        <datalist id="searchResult"></datalist>
-                      </div>
                       <div class="col-md-6 form-floating">
                         <input
                           type="text"
                           class="form-control"
-                          id="inputFullName"
-                          placeholder="Name"
-                          disabled
+                          id="inputFirstName"
+                          placeholder="First Name"
                           required
+                          autocomplete="off"
                         />
-                        <label for="inputFullName" class="form-label"
-                          >Name</label
+                        <label for="inputFirstName" class="form-label"
+                          >First Name</label
                         >
                       </div>
                       <div class="col-md-6 form-floating">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="inputLastName"
+                          placeholder="Last Name"
+                          required
+                          autocomplete="off"
+                        />
+                        <label for="inputLastName" class="form-label"
+                          >Last Name</label
+                        >
+                      </div>
+                      <div class="col-md-8 form-floating">
+                        <input
+                          type="text"
+                          class="form-control text-wrap"
+                          id="inputAddress"
+                          placeholder="House No./Street/Barangay/City/Municipality/Region"
+                          required
+                          autocomplete="off"
+                        />
+                        <label for="inputAddress" class="form-label"
+                          >Address</label
+                        >
+                      </div>
+                      <div class="col-md-4 form-floating">
                         <input
                           type="number"
                           class="form-control"
                           id="inputContact"
                           placeholder="Enter phone number"
-                          disabled
                           required
+                          autocomplete="off"
                         />
                         <label for="inputContact" class="form-label"
                           >Contact Number</label
                         >
                       </div>
+                      <hr class="" />
                       <div class="col-md-6 form-floating">
-                        <input
-                          type="text"
-                          class="form-control"
+                        <select
+                          class="form-select"
                           id="inputProject"
-                          placeholder="Project"
-                          disabled
+                          placeholder="Select designation"
                           required
-                        />
+                        ></select>
                         <label for="inputProject" class="form-label"
                           >Project</label
                         >
                       </div>
                       <div class="col-md-6 form-floating">
-                        <input
-                          type="text"
-                          class="form-control"
+                        <select
+                          class="form-select"
                           id="inputDesignation"
-                          placeholder="Designation"
-                          disabled
+                          placeholder="Select designation"
                           required
-                        />
+                        >
+                          <option value="Foreman">Foreman</option>
+                          <option value="Skilled">Skilled</option>
+                        </select>
                         <label for="inputDesignation" class="form-label"
                           >Designation</label
                         >
                       </div>
-                      <hr class="" />
-                      <div class="col-md-4 form-floating">
-                        <input
-                          type="date"
-                          class="form-control"
-                          id="inputDate"
-                          placeholder="Date"
-                          disabled
-                          required
-                        />
-                        <label for="inputDate" class="form-label">Date</label>
-                      </div>
-                      <div class="col-md-4 form-floating">
-                        <input
-                          type="time"
-                          class="form-control"
-                          id="inputIn"
-                          placeholder="Time In"
-                        />
-                        <label for="inputIn" class="form-label">Time In</label>
-                      </div>
-                      <div class="col-md-4 form-floating">
-                        <input
-                          type="time"
-                          class="form-control"
-                          id="inputOut"
-                          placeholder="Time Out"
-                        />
-                        <label for="inputOut" class="form-label"
-                          >Time Out</label
+                      <div class="col-md-12">
+                        <span class="align-middle">Skills: </span>
+                        <div
+                          class="btn-group btn-group-sm align-middle"
+                          role="group"
                         >
-                      </div>
-                      <div class="col-md-12 form-floating">
-                        <select
-                          class="form-select"
-                          id="inputStatus"
-                          placeholder="Select status"
-                          required
-                        >
-                          <option value="Present">Present</option>
-                          <option value="Absent">Absent</option>
-                          <option value="Half-day">Half-day</option>
-                          <option value="On Leave">On Leave</option>
-                        </select>
-                        <label for="inputStatus" class="form-label"
-                          >Status</label
-                        >
+                          <input
+                            type="checkbox"
+                            class="btn-check"
+                            id="Steelman"
+                            autocomplete="off"
+                          />
+                          <label class="btn btn-outline-dark" for="Steelman"
+                            >Steelman</label
+                          >
+
+                          <input
+                            type="checkbox"
+                            class="btn-check"
+                            id="Mason"
+                            autocomplete="off"
+                          />
+                          <label class="btn btn-outline-dark" for="Mason"
+                            >Mason</label
+                          >
+
+                          <input
+                            type="checkbox"
+                            class="btn-check"
+                            id="Painter"
+                            autocomplete="off"
+                          />
+                          <label class="btn btn-outline-dark" for="Painter"
+                            >Painter</label
+                          >
+
+                          <input
+                            type="checkbox"
+                            class="btn-check"
+                            id="Carpenter"
+                            autocomplete="off"
+                          />
+                          <label class="btn btn-outline-dark" for="Carpenter"
+                            >Carpenter</label
+                          >
+                        </div>
                       </div>
                     </div>
                     <div class="modal-footer border-danger bg-light">
@@ -400,9 +401,8 @@
     </div>
 
     <!--Container Main end-->
-
-    <script src="../../js/main.js"></script>
-    <script src="../../js/manager/attendance.js"></script>
     <script src="../../js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/main.js"></script>
+    <script src="../../js/manager/employee.js"></script>
   </body>
 </html>

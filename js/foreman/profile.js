@@ -10,8 +10,8 @@ function authenticateUser(){
    var user = sessionStorage.getItem("user");
 
    if(user === null) window.location.href="../../html/login.html"
-   else if(user === "Foreman") window.location.href="../../html/foreman/dashboard.html"
    else if(user === "Manager") window.location.href="../../html/manager/dashboard.html"
+   else if(user === "Employee") window.location.href="../../html/employee/dashboard.html"
 }
 
 let id = JSON.parse(sessionStorage.getItem("userId"));

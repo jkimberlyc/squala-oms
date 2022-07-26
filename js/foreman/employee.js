@@ -6,10 +6,13 @@ window.addEventListener("load", function() {
     }, 300)
 })
 
+var deleteEmployee = false;
+
 function authenticateUser(){
     var user = sessionStorage.getItem("user");
 
-    if(user === "Manager") window.location.href="../../html/manager/dashboard.html"
+    if(user === null) window.location.href="../../html/login.html"
+    else if(user === "Manager") window.location.href="../../html/manager/dashboard.html"
     else if(user === "Employee") window.location.href="../../html/employee/dashboard.html"
 }
 
@@ -32,7 +35,9 @@ function showAllEmployees() {
         var skills = document.createElement("td");
         var action = document.createElement("td");
         
-        name.innerHTML = `<a role="button" data-bs-toggle="tooltip" title="Username: | Password:">${employeeList[i].firstName} ${employeeList[i].lastName}</a>`;
+        var account = accountList.filter((obj) => obj.employeeId === employeeList[i].id)
+        
+        name.innerHTML = `<a role="button" data-bs-toggle="tooltip" title="Username: ${account[0].username} Password: ${account[0].password}">${employeeList[i].firstName} ${employeeList[i].lastName}</a>`;
         address.innerHTML = employeeList[i].address;
         contact.innerHTML = employeeList[i].contact;
         designation.innerHTML = employeeList[i].designation
@@ -111,6 +116,7 @@ for(let i=0; i<editBtns.length; i++){
     editBtns[i].addEventListener("click", () => {
         //reset alerts
         clearAlertVal();
+        deleteEmployee=false; 
 
         var modalTitle = document.querySelector(".modal-title");
         modalTitle.innerHTML = "<i class='bx bxs-edit align-middle fs-3'></i><span class='align-middle'> Edit Profile</span>"
@@ -177,6 +183,7 @@ for(let i=0; i<editBtns.length; i++){
 }
 
 var valid = true;
+const initialDesignation = document.getElementById("inputDesignation").value;
 //enable Save Changes button when any of the fields/checkboxes in the edit form is changed
 document.getElementById("editForm").addEventListener("change", (e) => {
     var project = document.getElementById("inputProject").value;
@@ -189,11 +196,6 @@ document.getElementById("editForm").addEventListener("change", (e) => {
         if(thisProject[0].projectForeman != ""){
             alert("You cannot assign more than one foreman in a project!");
             valid = false;
-            // for(i in options){
-            //     if(options[i].value == designationDefaultVal){
-            //         designationSelect[i].selected = true;
-            //     }
-            // }
         }
         else{
             valid = true;
@@ -201,7 +203,10 @@ document.getElementById("editForm").addEventListener("change", (e) => {
     }
     else if((designationSelect.value=="Skilled") && (e.target == designationSelect || e.target == projectSelect)) {
         valid = true;
-    }else submitBtn.disabled = false;
+    }else if(e.target != designationSelect && e.target != projectSelect){
+        valid = true;
+        submitBtn.disabled = false;
+    }
 
     if(valid) submitBtn.disabled = false;
     else submitBtn.disabled = true;
@@ -213,90 +218,135 @@ document.getElementById("editForm").addEventListener("keyup", () => {
     else submitBtn.disabled = true;
 })
 
-//update localStorage when Save Changes is clicked
-submitBtn.addEventListener("click", () => {
-    if(employeeIDModal == "") createEmployee();
-    else{
-        var employeeID = employeeIDModal;
-
-        //index of the employee object in the employees table
-        var index = employeeList.findIndex(employee => employee.id == employeeID); 
-
-        var thisEmployee = employeeList.filter((obj) => obj.id == employeeID);
-
-        //for the new project value, we have to get its ID from the projects table using the provided project name and store its ID instead
-        var thisProject = projectList.filter((obj) => obj.projectName == document.getElementById("inputProject").value);
-
-        if(thisProject[0].id == thisEmployee[0].projectId){ //if same project
-            if((document.getElementById("inputDesignation").value == "Foreman") && (thisEmployee[0].designation == "Skilled")){ 
-                //if skilled is assigned as foreman in same project
-                addForeman(thisProject[0].id, employeeID);
-            } else if ((document.getElementById("inputDesignation").value == "Skilled") && (thisEmployee[0].designation == "Foreman")){ 
-                //from foreman to skilled
-                removeForeman(thisProject[0].id);
-            }
-        } else { //if not same project
-            if((document.getElementById("inputDesignation").value == "Foreman") && (thisEmployee[0].designation == "Skilled")) {
-                //from skilled to foreman in another project
-                addForeman(thisProject[0].id, employeeID);
-                addWorker(thisProject[0].id, employeeID);
-                removeWorker(thisEmployee[0].projectId, employeeID);
-            }
-            else if((document.getElementById("inputDesignation").value == "Skilled") && (thisEmployee[0].designation == "Foreman")){  
-                //from foreman to skilled in another project  
-                removeForeman(thisEmployee[0].projectId);
-                removeWorker(thisEmployee[0].projectId, employeeID);
-                addWorker(thisProject[0].id, employeeID);
-            }
-            else if((document.getElementById("inputDesignation").value == "Foreman") && (thisEmployee[0].designation == "Foreman")){  
-                //from foreman to foreman in another project  
-                removeForeman(thisEmployee[0].projectId);
-                removeWorker(thisEmployee[0].projectId, employeeID);
-                addForeman(thisProject[0].id, employeeID);
-                addWorker(thisProject[0].id, employeeID);
-            }
-            else if((document.getElementById("inputDesignation").value == "Skilled") && (thisEmployee[0].designation == "Skilled")){  
-                //from skilled to skilled in another project  
-                removeWorker(thisEmployee[0].projectId, employeeID);
-                addWorker(thisProject[0].id, employeeID);
-            }
-        }
-
-        //for new value of skills, we take all the checked checkboxes and put it in an array
-        var skillsArray = [];
-        for(i in skillsCheck){
-            if(skillsCheck[i].checked) skillsArray.push(skillsCheck[i].id);
-        }
-
-        var newEmployee = {
-            id: employeeID,
-            projectId: thisProject[0].id,
-            firstName: document.getElementById("inputFirstName").value,
-            lastName: document.getElementById("inputLastName").value,
-            contact: document.getElementById("inputContact").value,
-            address: document.getElementById("inputAddress").value,
-            designation: document.getElementById("inputDesignation").value,
-            skills: skillsArray
-        }
-
-        var empList = employeeList;
-        empList[index] = newEmployee;
-        localStorage.setItem("employees", JSON.stringify(empList)); 
-
-        sessionStorage.setItem("editAlert", JSON.stringify("true"));
-    }
-})
-
 for(let i=0; i<skillsCheck.length; i++){
-    skillsCheck[i].addEventListener("change", ()=>{
+    skillsCheck[i].addEventListener("click", ()=>{
         if(valid) submitBtn.disabled = false;
         else if(!valid) submitBtn.disabled = true;
     })
 }
 
+//update localStorage when Save Changes is clicked
+submitBtn.addEventListener("click", (e) => {
+    var firstName = document.getElementById("inputFirstName")
+    var lastName = document.getElementById("inputLastName")
+    var contact = document.getElementById("inputContact")
+    var address = document.getElementById("inputAddress")
+    var designation = document.getElementById("inputDesignation")
+
+    if(employeeIDModal == "") createEmployee();
+    else {
+        if(((firstName.value != "") && (lastName.value != "")) && ((contact.value != "") && (address.value != ""))){
+            var employeeID = employeeIDModal;
+
+            //index of the employee object in the employees table
+            var index = employeeList.findIndex(employee => employee.id == employeeID); 
+
+            var thisEmployee = employeeList.filter((obj) => obj.id == employeeID);
+
+            var project = projectList.filter(p => p.id === thisEmployee[0].projectId)
+
+            if((document.getElementById("inputDesignation").value == "Foreman" && project[0].projectForeman != "") && !valid){
+                console.log("foreman conflict")
+                alert("There is already a Foreman in this project.");
+                return false;
+            }
+
+            //for the new project value, we have to get its ID from the projects table using the provided project name and store its ID instead
+            var thisProject = projectList.filter((obj) => obj.projectName == document.getElementById("inputProject").value);
+
+            //for new value of skills, we take all the checked checkboxes and put it in an array
+            var skillsArray = [];
+            for(i in skillsCheck){
+                if(skillsCheck[i].checked) skillsArray.push(skillsCheck[i].id);
+            }
+
+            var newEmployee = {
+                id: employeeID,
+                projectId: thisProject[0].id,
+                firstName: firstName.value,
+                lastName: lastName.value,
+                contact: contact.value,
+                address: address.value,
+                designation: designation.value,
+                skills: skillsArray
+            }
+            
+            //update employees array in localStorage
+            var empList = employeeList;
+            empList[index] = newEmployee;
+            localStorage.setItem("employees", JSON.stringify(empList)); 
+            console.log(empList)
+
+            //update project workers
+            var workers = thisProject[0].workers;
+            var workerIndex = workers.findIndex(e => e.old_id === employeeID);
+            
+            workers[workerIndex].Name = newEmployee.firstName + " " + newEmployee.lastName;
+            workers[workerIndex].designation = newEmployee.designation;
+            workers[workerIndex].number = newEmployee.contact;
+
+            var projIndex = projectList.filter(p => p.id === thisProject[0].id);
+
+            thisProject[0] = {
+                ...thisProject[0],
+                workers: workers
+            }
+
+            var projList = projectList;
+            projList[projIndex] = thisProject[0];
+
+            if(!confirm("Save changes?")) {
+                return false;
+            }else{
+                localStorage.setItem("projects", JSON.stringify(projList)); 
+
+                sessionStorage.setItem("editAlert", JSON.stringify("true"));
+
+                //lastly update the project's workers array
+                if(thisProject[0].id == thisEmployee[0].projectId){ //if same project
+                    if((document.getElementById("inputDesignation").value == "Foreman") && (thisEmployee[0].designation == "Skilled")){ 
+                        //if skilled is assigned as foreman in same project
+                        addForeman(thisProject[0].id, employeeID);
+                    } else if ((document.getElementById("inputDesignation").value == "Skilled") && (thisEmployee[0].designation == "Foreman")){ 
+                        //from foreman to skilled
+                        removeForeman(thisProject[0].id);
+                    }
+                } else { //if not same project
+                    if((document.getElementById("inputDesignation").value == "Foreman") && (thisEmployee[0].designation == "Skilled")) {
+                        //from skilled to foreman in another project
+                        addForeman(thisProject[0].id, employeeID);
+                        addWorker(thisProject[0].id, employeeID);
+                        removeWorker(thisEmployee[0].projectId, employeeID);
+                    }
+                    else if((document.getElementById("inputDesignation").value == "Skilled") && (thisEmployee[0].designation == "Foreman")){  
+                        //from foreman to skilled in another project  
+                        removeForeman(thisEmployee[0].projectId);
+                        removeWorker(thisEmployee[0].projectId, employeeID);
+                        addWorker(thisProject[0].id, employeeID);
+                    }
+                    else if((document.getElementById("inputDesignation").value == "Foreman") && (thisEmployee[0].designation == "Foreman")){  
+                        //from foreman to foreman in another project  
+                        removeForeman(thisEmployee[0].projectId);
+                        removeWorker(thisEmployee[0].projectId, employeeID);
+                        addForeman(thisProject[0].id, employeeID);
+                        addWorker(thisProject[0].id, employeeID);
+                    }
+                    else if((document.getElementById("inputDesignation").value == "Skilled") && (thisEmployee[0].designation == "Skilled")){  
+                        //from skilled to skilled in another project  
+                        removeWorker(thisEmployee[0].projectId, employeeID);
+                        addWorker(thisProject[0].id, employeeID);
+                    }
+                }
+            }
+        }
+
+    }
+})
+
 //to dismiss an employee from the company
 for(let i=0; i<dismissBtns.length; i++){
     dismissBtns[i].addEventListener("click", () => {
+        deleteEmployee = true;
         var employeeID = event.target.closest("tr").id; //get the employee id located in each tr
         var thisEmployee = employeeList.filter((obj) => obj.id == employeeID);
 
@@ -334,7 +384,7 @@ function addForeman(projectID, employeeID){
 
     thisProject[0] = {
         ...thisProject[0],
-        projectForeman: employeeID
+        projectForeman: employeeID,
     }
 
     var projList = projectList;
@@ -358,30 +408,49 @@ function removeForeman(projectID){
 function addWorker(projectID, employeeID){
     var thisProject = projectList.filter((obj) => obj.id == projectID);
     var newWorkers = thisProject[0].workers;
+    var employee = employeeList.filter((obj)=>obj.id == employeeID);
+    var findWorker = newWorkers.filter(employee => employee.old_id === employeeID);
+    var latestID;
 
-    if(newWorkers.indexOf(employeeID) < 0) newWorkers.push(employeeID);
+    if(newWorkers.length==0) latestID=1;
+    else latestID = parseInt(newWorkers[newWorkers.length-1].id)+1;
 
-    thisProject[0] = {
-        ...thisProject[0],
-        workers: newWorkers
+    if(findWorker.length == 0){
+        var worker = {
+            id: latestID.toString(),
+            Name: employee[0].firstName + " " + employee[0].lastName,
+            designation: employee[0].designation,
+            number: employee[0].contact,
+            old_id: employeeID
+        }
+
+        newWorkers.push(worker);
+    
+        // if(newWorkers.indexOf(employeeID) < 0) newWorkers.push(employeeID);
+    
+        thisProject[0] = {
+            ...thisProject[0],
+            workers: newWorkers
+        }
+    
+        var projList = projectList;
+        projList[projectID-1] = thisProject[0]
+        localStorage.setItem("projects", JSON.stringify(projList));
     }
-
-    var projList = projectList;
-    projList[projectID-1] = thisProject[0]
-    localStorage.setItem("projects", JSON.stringify(projList));
+    
 }
 
 function removeWorker(projectID, employeeID){
     var thisProject = projectList.filter((obj) => obj.id == projectID);
     var newWorkers = thisProject[0].workers;
 
-    for(let i=0; i<newWorkers.length; i++){
-        if(newWorkers[i] == employeeID ) newWorkers.splice(i, 1);
-    }
+    // for(let i=0; i<newWorkers.length; i++){
+    //     if(newWorkers[i] == employeeID ) newWorkers.splice(i, 1);
+    // }
 
     thisProject[0] = {
         ...thisProject[0],
-        workers: newWorkers
+        workers: newWorkers.filter((employee) => employee.old_id != employeeID)
     }
 
     var projList = projectList;
@@ -425,18 +494,51 @@ function createEmployee() {
 
     //if employee is assigned as foreman
     if(newEmployee.designation == "Foreman") addForeman(thisProject[0].id, newId);
-    addWorker(thisProject[0].id, newId);
 
     var empList = employeeList;
     empList.push(newEmployee);
-    localStorage.setItem("employees", JSON.stringify(empList)); 
-    
-    
-    sessionStorage.setItem("createAlert", JSON.stringify("true"));
+
+    if(newEmployee.firstName != "" && newEmployee.lastName != "" && newEmployee.contact != "" && newEmployee.address != ""){
+        if(!confirm("Create employee?")) {
+            return false;
+        }else{
+            localStorage.setItem("employees", JSON.stringify(empList)); 
+            createAccount(newId);
+
+            //update project's workers
+            addWorker(thisProject[0].id, newId);
+            sessionStorage.setItem("createAlert", JSON.stringify("true"));
+        }
+    }
 }
 
+function createAccount(employeeId){
+    var employee = employeeList.filter((obj) => obj.id === employeeId)
+    var newId = accountList.length + 1;
+    var username = employee[0].firstName.charAt(0) + employee[0].lastName;
+    username = username.toLowerCase();
+
+    //generate random password
+    var chars = "0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var passwordLength = 7;
+    var password = "";
+
+    for (var i = 0; i <= passwordLength; i++) {
+        var randomNumber = Math.floor(Math.random() * chars.length);
+        password += chars.substring(randomNumber, randomNumber +1);
+    }
+
+    var newAccount = {
+        id: newId,
+        username: username,
+        password: password,
+        employeeId: employeeId
+    }
+
+    var newList = accountList;
+    newList.push(newAccount);
+    localStorage.setItem("accounts", JSON.stringify(newList));
+}
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-
-

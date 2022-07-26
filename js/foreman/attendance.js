@@ -11,10 +11,12 @@ window.addEventListener("load", function() {
 })
 
 function authenticateUser(){
-    var user = JSON.parse(sessionStorage.getItem("user"));
+    var user = sessionStorage.getItem("user");
 
-    if(user === "Manager") window.location.href="../../html/foreman/dashboard.html"
+    if(user === null) window.location.href="../../html/login.html"
+    else if(user === "Manager") window.location.href="../../html/manager/dashboard.html"
     else if(user === "Employee") window.location.href="../../html/employee/dashboard.html"
+    
 }
 
 const attendanceTable = document.getElementById("attendance");
@@ -93,8 +95,10 @@ for(let i=0; i<updateBtns.length; i++){
     updateBtns[i].addEventListener("click", ()=> {
         //reset alerts
         clearAlertVal();
+        document.getElementById("submitBtn").disabled = true;
 
         document.getElementById("searchEmployee").required = false;
+        document.getElementById("inputDate").disabled = false;
 
         var submit = document.getElementById("submitBtn");
         submit.innerHTML = "Save Changes";
@@ -107,7 +111,6 @@ for(let i=0; i<updateBtns.length; i++){
 
         var attendanceID = event.target.closest("tr").id;
         attendanceIDModal = attendanceID
-        console.log(attendanceID)
 
         var thisAttendance = attendList.filter((obj) => obj.id === attendanceID);
         attendance = thisAttendance[0];
@@ -254,35 +257,57 @@ document.getElementById("submitBtn").addEventListener("click", () => {
         var attendanceRecord = attendList;
         attendanceRecord[parseInt(id)-1] = thisRecord[0];
 
-        localStorage.setItem("attendance", JSON.stringify(attendanceRecord));
+        if(!confirm("Save Changes?")) {
+            return false;
+        }else{
+            localStorage.setItem("attendance", JSON.stringify(attendanceRecord));
+            sessionStorage.setItem("editAlert1", JSON.stringify("true"));
+            this.form.submit();
+        }
 
-        sessionStorage.setItem("editAlert1", JSON.stringify("true"));
+        
     }
 })
 
 function createAttendance() {
     document.getElementById("searchEmployee").required = true;
+    var searchEmployee = document.getElementById("searchEmployee").value;
+    var date = document.getElementById("inputDate").value;
+    var timeIn = document.getElementById("inputIn").value;
+    var timeOut = document.getElementById("inputOut").value;
+    var status = document.getElementById("inputStatus").value;
     
-    if(document.getElementById("searchEmployee").value != ""){
-        var newId = (attendList.length+1).toString();
-        var thisEmployee = employeeList.filter((obj) => obj.id === attendanceCreateID)
-        var employee = thisEmployee[0];
+    //check if attendance date and user already exists
+    var thisEmployee = employeeList.filter((e) => e.id === attendanceCreateID);
+    var thisAttendance = attendList.filter(a => (a.employeeId === thisEmployee[0].id) && (a.date === date));
+    if(thisAttendance.length === 0){ //if nothing found, can proceed to create
+        if(searchEmployee != ""){
+            var newId = (attendList.length+1).toString();
+            var employee = thisEmployee[0];
+    
+            var attendance = {
+                id: newId,
+                employeeId: employee.id,
+                projectId: employee.projectId,
+                designation: employee.designation,
+                date: date,
+                timeIn: timeIn,
+                timeOut: timeOut,
+                status: status
+            }
+            var newList = attendList;
+            newList.push(attendance);
 
-        var attendance = {
-            id: newId,
-            employeeId: employee.id,
-            projectId: employee.projectId,
-            designation: employee.designation,
-            date: document.getElementById("inputDate").value,
-            timeIn: document.getElementById("inputIn").value,
-            timeOut: document.getElementById("inputOut").value,
-            status: document.getElementById("inputStatus").value,
+            if(!confirm("Create attendance?")) {
+                return false;
+            }else{
+                localStorage.setItem("attendance", JSON.stringify(newList));
+                sessionStorage.setItem("createAlert1", JSON.stringify("true"));
+                this.form.submit();
+            }
         }
-        var newList = attendList;
-        newList.push(attendance);
-        localStorage.setItem("attendance", JSON.stringify(newList));
-        
-        sessionStorage.setItem("createAlert1", JSON.stringify("true"));
+    }else{
+        alert("This attendance record already exists.");
     }
 }
 

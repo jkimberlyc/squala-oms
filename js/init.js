@@ -3,7 +3,7 @@ const projects = [
         id: "1",
         projectName: "Project 1",
         projectAddress: "Lot 1, Block 2, Lorem Street, Ipsum City",
-        projectStart: "June, 2022",
+        projectStart: "June 21, 2022",
         projectEnd: "",
         projectForeman: "1",
         workers: [
@@ -22,51 +22,15 @@ const projects = [
                 old_id: "2"
             }
         ],
-        tasks: [
-            {
-                id: "1",
-                projectId: "1",
-                taskName: "Excavation of Column Footing A",
-                targetDate: "November",
-                status: "Ongoing"
-            },
-            {
-                id: "2",
-                projectId: "1",
-                taskName: "Excavation of Footing Tie Beam A",
-                targetDate: "August",
-                status: "Incomplete"
-            },
-            {
-                id: "3",
-                projectId: "1",
-                taskName: "Assembly of Column Rebars A",
-                targetDate: "September",
-                status: "Incomplete"
-            }],
-        tools: [
-            {
-                id: "1",
-                projectId: "1",
-                tool: "Grinder",
-                quantity: "2",
-                status: "Available"
-            },
-            {
-                id: "2",
-                projectId: "1",
-                tool: "Grinder",
-                quantity: "2",
-                status: "Available"
-            }
-        ],
+        task: [],
+        tools: [],
         completed: false
     },
     {   
         id: "2",
         projectName: "Project 2",
         projectAddress: "Lot 1, Block 2, Lorem Street, Ipsum City",
-        projectStart: "",
+        projectStart: "June 23, 2022",
         projectEnd: "",
         projectForeman: "3",
         workers: [
@@ -78,7 +42,7 @@ const projects = [
                 old_id: "3"
             },
         ], //employee ID
-        tasks: [
+        task: [
             {
                 id: "1",
                 projectId: "1",
@@ -222,23 +186,30 @@ const tools = [
 
 const accounts = [
     {
-        id: 1,
+        id: "1",
         username: "manager",
         password: "1234",
         employeeId: "admin"
     },
     {
-        id: 2,
+        id: "2",
         username: "employee1",
         password: "1234",
         employeeId: "1"
     },
     {
-        id: 3,
+        id: "3",
         username: "employee2",
         password: "1234",
         employeeId: "2"
+    },
+    {
+        id: "4",
+        username: "employee3",
+        password: "1234",
+        employeeId: "3"
     }
+
 ]
 
 localStorage.setItem("projects", JSON.stringify(projects));

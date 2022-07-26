@@ -1,0 +1,16 @@
+.background {
+  background: url("../img/black.gif") no-repeat left top;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center;
+  height: calc(100vh - 52px);
+}
+
+main {
+  background-image: url("../img/vecteezyWhite.jpg") !important;
+  height: fit-content;
+  background-repeat: no-repeat;
+  background-size: cover cover;
+  background-attachment: fixed;
+  background-position: center;
+}
